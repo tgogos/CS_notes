@@ -17,6 +17,8 @@
 
 ## TCP/IP Evolution and Security
 
+### Diversity
+
 > Now there's a kind of a message here, this idea that diversity might actually be a good thing for security. It's not a good thing if you're a CIO, Chief Information Officer, for a company. You want low cost. You want everybody using the same tools. You want interoperability. You want non-diversity. They want to train everybody on the same thing.
 
 **Although:**
@@ -26,3 +28,5 @@
 **But:**
 
 > But from a security perspective, you the security engineer are going to have to think through as you're doing design. Is it better to have everything the same or to have some things different? That's going to be a decision you'll have to make as an engineer.
+
+> **Advancing interoperability certainly does makes security more challenging**. I mean, it's a fact. It's one of those cases where infrastructure decisions are somewhat at odds with security decisions. You'll see as you continue in your studies of computer security that that's not always the case. For example, as we advance virtualization and cloud, which most Chief Information Security Officers and Chief Information Officers both like. So people who want to propose better computing with cloud and virtualization also are proposing things that are better for security, so it's not always the case that things are at odds. But with interoperability and security, we have to admit that **when we make it easier to do computing, we make it easier to do attacking**. So let's keep that in mind as we progress in our studies in cybersecurity.
