@@ -18,3 +18,11 @@
 ## TCP/IP Evolution and Security
 
 > Now there's a kind of a message here, this idea that diversity might actually be a good thing for security. It's not a good thing if you're a CIO, Chief Information Officer, for a company. You want low cost. You want everybody using the same tools. You want interoperability. You want non-diversity. They want to train everybody on the same thing.
+
+**Although:**
+
+>There's companies that do it like that. Like if you're here in the US, there's an airline called the Southwest Airline, and I'm pretty sure they run one type of aircraft, a Boeing 737 jet. And I always posit in my mind, what would happen if that got grounded? The whole company would be grounded. **That's a non-diverse business decision.** Now, it lowers their training cost, everybody flies the same stuff, everything's standard, I get that.
+
+**But:**
+
+> But from a security perspective, you the security engineer are going to have to think through as you're doing design. Is it better to have everything the same or to have some things different? That's going to be a decision you'll have to make as an engineer.
