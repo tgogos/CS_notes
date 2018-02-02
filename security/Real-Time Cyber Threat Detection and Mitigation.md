@@ -111,3 +111,14 @@ Reference monitor: 1970s James Anderson.
  4. Cannot be tampered with
  5. Cannot be bypassed
 
+
+## Firewall: Stateful versus Stateless
+
+(Stateful / Stateless is about computing devices in general, not only firewalls).
+
+ - **Stateful:** remembers information between states, context-sensitive, more powerful than stateless. It's like having the ability to capture and use state to have memory, to be able to count something, or say, I saw this before.
+ - **Stateless:** does not remember information between states, context-free, less powerful than stateful.
+ 
+ Example with the guard who checks for "blue jackets".
+ 
+ This is **foundational to cybersecurity**. You are either making decisions that are stateful or stateless. And yes, we tend to talk about that in the context of firewalls. It's almost always talked about in the context of firewalls. But what I want you to do is generalize the notion, **statefulness**, **tatelessness**, are **properties of any device that's making any decision** about certain types of things. And I like the idea of sort of context-free and context sensitive. Context-free, meaning make the decision, don't worry about what happened previously. Context sensitive, this is the fifth time you're getting a bad password to me, maybe something funny's going on. I'm taking into account the context in which I'm detecting something.
