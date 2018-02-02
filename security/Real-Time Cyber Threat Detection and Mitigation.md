@@ -74,4 +74,14 @@ Alice wants to start a session with Bob. She knows Bob and Bill trust each other
 > - So go to the next person. "Hey, am I for you?" You go, "Nope, not for me."
 > - And it comes to me. Let's say I'm a security hacker, and I like to read everything, and I like to see everything. Comes to me, it doesn't have my address. It says, "Am I for you?" And I go, "Yeah you are for me. " I want everything. I say yes to everything. It's called **sniffing**.
 
-> So **most layer two protocols do not have embedded in them the kinds of protections** that you would want to make private conversations, say, on a train or something using Wi-Fi. There's another problem, and that's that the **native protocols that we use at almost every layer are not encrypted**. Now, you can encrypt them but they're not natively encrypted, meaning we designed all these things.
+> So **most layer two protocols do not have embedded in them the kinds of protections** that you would want to make private conversations, say, on a train or something using Wi-Fi. There's another problem, and that's that the **native protocols that we use at almost every layer are not encrypted**. Now, you can encrypt them but they're not natively encrypted, meaning we designed all these things. We didn't design it at conception time.
+
+### Retrofit
+
+> It's sort of like if you're building a house and you want to wire it, let's say you want to put some wires in your home for whatever reason, you don't think Wi-Fi is good enough. You want to put Ethernet. Would it be better to put that in when you're building the house while the walls are still off, or would you want to do it after you've built the whole house and then you overlay?
+
+> In cyber security, we call that **retrofit**. That's a term that describes an activity that you don't want to do in security, and the problem is in a local area network setting, for the most part, the security, the privacy, the confidentiality has been retrofit.
+
+> - The **native case tends to be insecure**.
+> - Native base case generally insecure, we **tend to retrofit on top of it**.
+> - If we had our choice, I'd rather design the **security in from the start**.
