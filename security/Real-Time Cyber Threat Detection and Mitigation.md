@@ -41,3 +41,12 @@
 
 ## TCP Sequence Number Attack
 
+> 1990s, Kevin Mitnick, Christmas Eve (low traffic)
+
+Alice wants to start a session with Bob. She knows Bob and Bill trust each other so she does the following steps:
+
+ - sends `SYN` packets to Bob and writes down the sequence numbers returned in the `SYN` `ACK`, let's say that 100, 200, 300..., 1000 were returned.
+ - she has now a way to predict the next sequence number (1100), so
+ - she sends a `SYN` and spoofs her IP to pretend that it was Bill who sent it
+ - the server sends a `SYN` `ACK` to Bill
+ - Alice `ACK`s back with sequence number: 1100. She's got the session set-up.
