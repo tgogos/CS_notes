@@ -85,3 +85,15 @@ Alice wants to start a session with Bob. She knows Bob and Bill trust each other
 > - The **native case tends to be insecure**.
 > - Native base case generally insecure, we **tend to retrofit on top of it**.
 > - If we had our choice, I'd rather design the **security in from the start**.
+
+
+## SYN Packets for Access Control
+
+![reference_monitor_syn_ack_zero.png](imgs/reference_monitor_syn_ack_zero.png)
+
+Reference monitor: 1970s James Anderson.
+
+> Now, that first packet, the first initiating packet, the `SYN`, it turns out that in TCP, **we got really lucky in the way that thing was designed**. I'm not entirely sure that, Cerf and Kahn, the two inventors, were thinking security when they did this. I doubt it. But they were certainly thinking about establishment of a session and what they decided was,
+> - **the first packet in that TCP sequence would have the ACK Bit set to zero**.
+> - **All subsequent packets going back and forth including all data transfer, the ACK that would be set to one**.
+> How cool is that? So, what that allows you to do is you can put a little piece of equipment, think of it as equipment, it's not going to be equipment but think of it as equipment, sitting there between Alice and Bob, and all it's doing is watching packets command and looking at the ACK Bit and saying, ACK Bit zero.
