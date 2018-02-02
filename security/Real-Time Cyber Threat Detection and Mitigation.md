@@ -43,6 +43,8 @@
 
 > 1990s, Kevin Mitnick, Christmas Eve (low traffic)
 
+![sequence_number_attack.png](imgs/sequence_number_attack.png)
+
 Alice wants to start a session with Bob. She knows Bob and Bill trust each other so she does the following steps:
 
  - sends `SYN` packets to Bob and writes down the sequence numbers returned in the `SYN` `ACK`, let's say that 100, 200, 300..., 1000 were returned.
