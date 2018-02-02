@@ -73,3 +73,5 @@ Alice wants to start a session with Bob. She knows Bob and Bill trust each other
 > - It find its way out onto the wire, and it go to the first interface and say, "Hello, am I for you?" And whoever is at the other end would go, "No, no," whatever, but most part you'd say no. They would have an address. They would have and we call that a MAC address, and you'd say no.
 > - So go to the next person. "Hey, am I for you?" You go, "Nope, not for me."
 > - And it comes to me. Let's say I'm a security hacker, and I like to read everything, and I like to see everything. Comes to me, it doesn't have my address. It says, "Am I for you?" And I go, "Yeah you are for me. " I want everything. I say yes to everything. It's called **sniffing**.
+
+> So **most layer two protocols do not have embedded in them the kinds of protections** that you would want to make private conversations, say, on a train or something using Wi-Fi. There's another problem, and that's that the **native protocols that we use at almost every layer are not encrypted**. Now, you can encrypt them but they're not natively encrypted, meaning we designed all these things.
