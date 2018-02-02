@@ -63,3 +63,8 @@ Alice wants to start a session with Bob. She knows Bob and Bill trust each other
      - Botnets
 
 ![DDoS_SYN_flood.png](imgs/DDoS_SYN_flood.png)  
+
+
+## Packet Sniffing
+
+![OSI_layers.png](imgs/OSI_layers.png)  
