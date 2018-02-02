@@ -97,3 +97,7 @@ Reference monitor: 1970s James Anderson.
 > - **the first packet in that TCP sequence would have the ACK Bit set to zero**.
 > - **All subsequent packets going back and forth including all data transfer, the ACK that would be set to one**.
 > How cool is that? So, what that allows you to do is you can put a little piece of equipment, think of it as equipment, it's not going to be equipment but think of it as equipment, sitting there between Alice and Bob, and all it's doing is watching packets command and looking at the ACK Bit and saying, ACK Bit zero.
+
+> And that in essence is the embryonic beginnings, the embryonic birth, of a **firewall**.
+
+> The way TCP/IP works is that if you're not expecting something, and a packet hits with the ACK Bit one, you discard it, or whatever. It depends on the implementation. You'd like to think that your router is set up to do that. And as we get into firewall design and security design, you'll see we'll be watching for weird, stray things, and making sure we have rules in place to catch stray garbage that may be coming at you.
