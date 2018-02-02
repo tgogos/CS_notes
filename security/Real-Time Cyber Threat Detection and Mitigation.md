@@ -122,3 +122,5 @@ Reference monitor: 1970s James Anderson.
  Example with the guard who checks for "blue jackets".
  
  This is **foundational to cybersecurity**. You are either making decisions that are stateful or stateless. And yes, we tend to talk about that in the context of firewalls. It's almost always talked about in the context of firewalls. But what I want you to do is generalize the notion, **statefulness**, **tatelessness**, are **properties of any device that's making any decision** about certain types of things. And I like the idea of sort of context-free and context sensitive. Context-free, meaning make the decision, don't worry about what happened previously. Context sensitive, this is the fifth time you're getting a bad password to me, maybe something funny's going on. I'm taking into account the context in which I'm detecting something.
+
+> As you move up the application stack, say in the OSI stack, things tend to be more stateful. As you move down they tend to be more stateless. (you can be stateful with layer two, just the tendency is that as things get more intelligent, more application aware, tend to have more memory)
