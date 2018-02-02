@@ -52,3 +52,13 @@ Alice wants to start a session with Bob. She knows Bob and Bill trust each other
  - she sends a `SYN` and spoofs her IP to pretend that it was Bill who sent it
  - the server sends a `SYN` `ACK` to Bill
  - Alice `ACK`s back with sequence number: 1100. She's got the session set-up.
+
+## Packet Flooding
+
+**DDoS cases:**
+
+ 1. Lie about IP address
+   - `SYN` flood
+ 2. Real IP address
+   - Botnets
+   
