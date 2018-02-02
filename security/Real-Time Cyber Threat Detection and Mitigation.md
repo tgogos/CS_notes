@@ -67,4 +67,9 @@ Alice wants to start a session with Bob. She knows Bob and Bill trust each other
 
 ## Packet Sniffing
 
-![OSI_layers.png](imgs/OSI_layers.png)  
+![OSI_layers.png](imgs/OSI_layers.png)
+
+> Here's how the **protocol of Ethernet** was designed to work. An entity called a **frame** would be created. So different packet with layer two. The frame would be created.
+> - It find its way out onto the wire, and it go to the first interface and say, "Hello, am I for you?" And whoever is at the other end would go, "No, no," whatever, but most part you'd say no. They would have an address. They would have and we call that a MAC address, and you'd say no.
+> - So go to the next person. "Hey, am I for you?" You go, "Nope, not for me."
+> - And it comes to me. Let's say I'm a security hacker, and I like to read everything, and I like to see everything. Comes to me, it doesn't have my address. It says, "Am I for you?" And I go, "Yeah you are for me. " I want everything. I say yes to everything. It's called **sniffing**.
