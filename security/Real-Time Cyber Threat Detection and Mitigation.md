@@ -57,8 +57,9 @@ Alice wants to start a session with Bob. She knows Bob and Bill trust each other
 
 **DDoS cases:**
 
- 1. Lie about IP address
-   - `SYN` flood
- 2. Real IP address
-   - Botnets
-   
+ - Lie about IP address
+     - `SYN` flood
+ - Real IP address
+     - Botnets
+
+![DDoS_SYN_flood.png](imgs/DDoS_SYN_flood.png)  
