@@ -101,3 +101,13 @@ Reference monitor: 1970s James Anderson.
 > And that in essence is the embryonic beginnings, the embryonic birth, of a **firewall**.
 
 > The way TCP/IP works is that if you're not expecting something, and a packet hits with the ACK Bit one, you discard it, or whatever. It depends on the implementation. You'd like to think that your router is set up to do that. And as we get into firewall design and security design, you'll see we'll be watching for weird, stray things, and making sure we have rules in place to catch stray garbage that may be coming at you.
+
+
+##  Definition of a Firewall
+
+ 1. Separates two or more networks
+ 2. Enforces network security policies
+ 3. Administered by a network administrator
+ 4. Cannot be tampered with
+ 5. Cannot be bypassed
+
