@@ -42,3 +42,11 @@ To have a fully functional Kubernetes cluster, we need to make sure of the follo
  - If configured, the application deployed inside a Pod is accessible from the external world.
 
 All of the above are networking challenges which must be addressed before deploying the Kubernetes cluster.
+
+## Pod-to-Pod Communication Across Nodes
+
+In a clustered environment, the Pods can be scheduled on any node. We need to make sure that the Pods can communicate across the nodes, and all the nodes should be able to reach any Pod. Kubernetes also puts a condition that there shouldn't be any Network Address Translation (NAT) while doing the Pod-to-Pod communication across hosts. We can achieve this via:
+ 
+ - Routable Pods and nodes, using the underlying physical infrastructure, like Google Kubernetes Engine
+ - Using Software Defined Networking, like Flannel, Weave, Calico, etc. 
+
