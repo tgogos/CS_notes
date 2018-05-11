@@ -29,3 +29,16 @@ As shown above, the kubelet (grpc client) connects to the CRI shim (grpc server)
 Instead of connecting directly to Pods to access the applications, we use a logical construct called a **Service** as a connection endpoint. A Service groups related Pods and, when accessed, load balances to them. We will talk more about Services in later chapters.
 
 **kube-proxy** is the network proxy which runs on each worker node and listens to the API server for each Service endpoint creation/deletion. For each Service endpoint, kube-proxy sets up the routes so that it can reach to it. We will also explore this in more detail in later chapters.
+
+---
+
+## Network Setup Challenges
+
+To have a fully functional Kubernetes cluster, we need to make sure of the following:
+
+ - A unique IP is assigned to each Pod
+ - Containers in a Pod can communicate to each other
+ - The Pod is able to communicate with other Pods in the cluster
+ - If configured, the application deployed inside a Pod is accessible from the external world.
+
+All of the above are networking challenges which must be addressed before deploying the Kubernetes cluster.
