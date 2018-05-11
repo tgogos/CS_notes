@@ -23,3 +23,9 @@ As shown above, the kubelet (grpc client) connects to the CRI shim (grpc server)
  - the `RuntimeService` is responsible for all the *Pod and container-related* operations.
 
 > Container runtimes used to be hard-coded in Kubernetes, but with the development of CRI, Kubernetes can now use different container runtimes without the need to recompile. **Any container runtime that implements CRI can be used by Kubernetes to manage Pods, containers, and container images**.
+
+## Worker Node Components: kube-proxy
+
+Instead of connecting directly to Pods to access the applications, we use a logical construct called a **Service** as a connection endpoint. A Service groups related Pods and, when accessed, load balances to them. We will talk more about Services in later chapters.
+
+**kube-proxy** is the network proxy which runs on each worker node and listens to the API server for each Service endpoint creation/deletion. For each Service endpoint, kube-proxy sets up the routes so that it can reach to it. We will also explore this in more detail in later chapters.
