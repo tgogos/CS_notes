@@ -2,11 +2,25 @@
 
 ## Basics
 
-**Containers** are an application-centric way to deliver high-performing, scalable applications on the infrastructure of your choice.
+### Containers
+are an application-centric way to deliver high-performing, scalable applications on the infrastructure of your choice.
 
 ![](Containers_Updated.png)
 
+### Images
 With a **container image**, we bundle the application along with its runtime and dependencies. We use that image to create an isolated executable environment, also known as container. We can deploy containers from a given image on the platform of our choice, such as desktops, VMs, cloud, etc.
+
+### Orchestration
+In the **quality assurance (QA) environments**, we can get away with running containers on a single host to develop and test applications. However, when we go to production, we do not have the same liberty, as we need to ensure that our applications:
+ 
+ - Are fault-tolerant
+ - Can scale, and do this on-demand
+ - Use resources optimally
+ - Can discover other applications automatically, and communicate with each other
+ - Are accessible from the external world 
+ - Can update/rollback without any downtime. 
+
+Container **orchestrators** are the tools which group hosts together to form a cluster, and help us fulfill the requirements mentioned above.
 
 ## Worker Node Components: Container Runtime
 
