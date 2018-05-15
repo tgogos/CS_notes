@@ -1,5 +1,8 @@
 # Introduction to Kubernetes
 
+<br>
+<br>
+
 ## Basics
 
 ### Containers
@@ -29,6 +32,13 @@ Nowadays, there are many container orchestrators available, such as:
  - **Mesos Marathon:** Marathon is one of the frameworks to run containers at scale on Apache Mesos.
  - **Amazon ECS:** Amazon EC2 Container Service (ECS) is a hosted service provided by AWS to run Docker containers at scale on its infrastructrue.
  - **Hashicorp Nomad:** Nomad is the container orchestrator provided by HashiCorp.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ## Worker Node Components: Container Runtime
 
@@ -81,7 +91,12 @@ In a clustered environment, the Pods can be scheduled on any node. We need to ma
  - Routable Pods and nodes, using the underlying physical infrastructure, like Google Kubernetes Engine
  - Using Software Defined Networking, like Flannel, Weave, Calico, etc. 
 
----
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ## Kubernetes Configuration
 
