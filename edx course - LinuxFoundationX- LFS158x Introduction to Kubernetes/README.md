@@ -1,3 +1,10 @@
+# Introduction to Kubernetes
+
+
+**Containers** are an application-centric way to deliver high-performing, scalable applications on the infrastructure of your choice.
+
+![](Containers_Updated.png)
+
 
 ## Worker Node Components: Container Runtime
 
