@@ -3,7 +3,7 @@
 <br>
 <br>
 
-## Basics
+## Basics | Terminology...
 
 ### Containers
 are an application-centric way to deliver high-performing, scalable applications on the infrastructure of your choice.
@@ -40,7 +40,9 @@ Nowadays, there are many container orchestrators available, such as:
 <br>
 <br>
 
-## Worker Node Components: Container Runtime
+## Worker Node Components
+
+### Container Runtime
 
 To run and manage a container's lifecycle, we need a container runtime on the worker node. Some examples of container runtimes are: 
 
@@ -50,7 +52,7 @@ To run and manage a container's lifecycle, we need a container runtime on the wo
 
 Sometimes, Docker is also referred to as a container runtime, but to be precise, **Docker is a platform which uses *containerd*** as a container runtime. 
 
-## Worker Node Components: kubelet
+### kubelet
 
 The kubelet is an agent which runs on each worker node and communicates with the master node. It receives the Pod definition via various means (primarily, through the API server), and runs the containers associated with the Pod. It also makes sure that the containers which are part of the Pods are healthy at all times.
 
@@ -65,13 +67,18 @@ As shown above, the kubelet (grpc client) connects to the CRI shim (grpc server)
 
 > Container runtimes used to be hard-coded in Kubernetes, but with the development of CRI, Kubernetes can now use different container runtimes without the need to recompile. **Any container runtime that implements CRI can be used by Kubernetes to manage Pods, containers, and container images**.
 
-## Worker Node Components: kube-proxy
+### kube-proxy
 
 Instead of connecting directly to Pods to access the applications, we use a logical construct called a **Service** as a connection endpoint. A Service groups related Pods and, when accessed, load balances to them. We will talk more about Services in later chapters.
 
 **kube-proxy** is the network proxy which runs on each worker node and listens to the API server for each Service endpoint creation/deletion. For each Service endpoint, kube-proxy sets up the routes so that it can reach to it. We will also explore this in more detail in later chapters.
 
----
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ## Network Setup Challenges
 
