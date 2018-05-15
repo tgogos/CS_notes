@@ -20,7 +20,15 @@ In the **quality assurance (QA) environments**, we can get away with running con
  - Are accessible from the external world 
  - Can update/rollback without any downtime. 
 
-Container **orchestrators** are the tools which group hosts together to form a cluster, and help us fulfill the requirements mentioned above.
+Container **orchestrators** are the tools which group hosts together to form a cluster, and help us fulfill the requirements mentioned above. 
+
+Nowadays, there are many container orchestrators available, such as:
+
+ - **Docker Swarm:** Docker Swarm is a container orchestrator provided by Docker, Inc. It is part of Docker Engine.
+ - **Kubernetes:** Kubernetes was started by Google, but now, it is a part of the Cloud Native Computing Foundation project.
+ - **Mesos Marathon:** Marathon is one of the frameworks to run containers at scale on Apache Mesos.
+ - **Amazon ECS:** Amazon EC2 Container Service (ECS) is a hosted service provided by AWS to run Docker containers at scale on its infrastructrue.
+ - **Hashicorp Nomad:** Nomad is the container orchestrator provided by HashiCorp.
 
 ## Worker Node Components: Container Runtime
 
