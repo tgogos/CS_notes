@@ -1,10 +1,12 @@
 # Introduction to Kubernetes
 
+## Basics
 
 **Containers** are an application-centric way to deliver high-performing, scalable applications on the infrastructure of your choice.
 
 ![](Containers_Updated.png)
 
+With a **container image**, we bundle the application along with its runtime and dependencies. We use that image to create an isolated executable environment, also known as container. We can deploy containers from a given image on the platform of our choice, such as desktops, VMs, cloud, etc.
 
 ## Worker Node Components: Container Runtime
 
