@@ -190,3 +190,21 @@ HTTP API space of Kubernetes can be divided into three independent groups:
 - **System-wide:** This group consists of system-wide API endpoints, like `/healthz`, `/logs`, `/metrics`, `/ui`, etc.
 
 We can either connect to an API server directly via calling the respective API endpoints, or via the CLI/GUI.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## Kubernetes Building Blocks
+
+### Pods
+
+A Pod is the smallest and simplest Kubernetes object. It is the unit of deployment in Kubernetes, which represents a single instance of the application. A Pod is a logical collection of one or more containers, which:
+
+ - Are scheduled together on the same host
+ - Share the same network namespace
+ - Mount the same external storage (volumes).
