@@ -167,3 +167,26 @@ Kubernetes can be installed using different configurations. The four major insta
  - **Single-Node etcd, Multi-Master, and Multi-Worker Installation:** In this setup, we have multiple master nodes, which work in an HA mode, but we have a single-node etcd instance.  Multiple worker nodes are connected to the master nodes.
 
  - **Multi-Node etcd, Multi-Master, and Multi-Worker Installation:** In this mode, etcd is configured in a clustered mode, outside the Kubernetes cluster, and the nodes connect to it. The master nodes are all configured in an HA mode, connecting to multiple worker nodes. This is the most advanced and recommended production setup.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## HTTP API Space of Kubernetes
+
+![](api-server-space_.jpg)
+
+HTTP API space of Kubernetes can be divided into three independent groups:
+
+- **Core Group (`/api/v1`):** This group includes objects such as Pods, Services, nodes, etc.
+- **Named Group:** This group includes objects in `/apis/$NAME/$VERSION` format. These different API versions imply different levels of stability and support:
+    - *Alpha level* - it may be dropped at any point in time, without notice. For example, `/apis/batch/v2alpha1`.
+    - *Beta level* - it is well-tested, but the semantics of objects may change in incompatible ways in a subsequent beta or stable release. For example, `/apis/certificates.k8s.io/v1beta1`.
+    - *Stable level* - appears in released software for many subsequent versions. For example, /apis/networking.k8s.io/v1.
+- **System-wide:** This group consists of system-wide API endpoints, like `/healthz`, `/logs`, `/metrics`, `/ui`, etc.
+
+We can either connect to an API server directly via calling the respective API endpoints, or via the CLI/GUI.
