@@ -32,6 +32,22 @@ Nowadays, there are many container orchestrators available, such as:
  - **Mesos Marathon:** Marathon is one of the frameworks to run containers at scale on Apache Mesos.
  - **Amazon ECS:** Amazon EC2 Container Service (ECS) is a hosted service provided by AWS to run Docker containers at scale on its infrastructrue.
  - **Hashicorp Nomad:** Nomad is the container orchestrator provided by HashiCorp.
+ 
+#### Why Use Container Orchestrators?
+
+Though we can argue that containers at scale can be maintained manually, or with the help of some scripts, container orchestrators can make things easy for operators.
+
+Container orchestrators can:
+
+ - Bring multiple hosts together and make them part of a cluster
+ - Schedule containers to run on different hosts
+ - Help containers running on one host reach out to containers running on other hosts in the cluster
+ - Bind containers and storage
+ - Bind containers of similar type to a higher-level construct, like services, so we don't have to deal with individual containers
+ - Keep resource usage in-check, and optimize it when necessary
+ - Allow secure access to applications running inside containers.
+
+With all these built-in benefits, **it makes sense to use container orchestrators to manage containers**. 
 
 <br>
 <br>
