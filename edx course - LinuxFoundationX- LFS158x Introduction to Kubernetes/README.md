@@ -70,7 +70,18 @@ Kubernetes offers a very rich set of features for container orchestration. Some 
 
  - **Horizontal scaling:** Kubernetes can automatically scale applications based on resource usage like CPU and memory. In some cases, it also supports dynamic scaling based on customer metrics.
 
-- **Service discovery and Load balancing:** Kubernetes groups sets of containers and refers to them via a Domain Name System (DNS). This DNS is also called a Kubernetes service. Kubernetes can discover these services automatically, and load-balance requests between containers of a given service.
+ - **Service discovery and Load balancing:** Kubernetes groups sets of containers and refers to them via a Domain Name System (DNS). This DNS is also called a Kubernetes service. Kubernetes can discover these services automatically, and load-balance requests between containers of a given service.
+
+## Kubernetes Features II
+
+Some other fully supported Kubernetes features are:
+
+- **Automated rollouts and rollbacks:** Kubernetes can roll out and roll back new versions/configurations of an application, without introducing any downtime.
+- **Secrets and configuration management:** Kubernetes can manage secrets and configuration details for an application without re-building the respective images. With secrets, we can share confidential information to our application without exposing it to the stack configuration, like on GitHub.
+- **Storage orchestration:** With Kubernetes and its plugins, we can automatically mount local, external, and storage solutions to the containers in a seamless manner, based on software-defined storage (SDS).
+- **Batch execution:** Besides long running jobs, Kubernetes also supports batch execution.
+
+There are many other features besides the ones we just mentioned, and they are currently in alpha/beta phase. They will add great value to any Kubernetes deployment once they become stable features. For example, support for role-based access control (RBAC) is  stable as of the Kubernetes 1.8 release.
 
 
 <br>
