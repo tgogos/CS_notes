@@ -60,6 +60,26 @@ Most container orchestrators can be deployed on the infrastructure of our choice
 <br>
 <br>
 
+## Kubernetes Features I
+
+Kubernetes offers a very rich set of features for container orchestration. Some of its fully supported features are:
+ 
+ - **Automatic binpacking:** Kubernetes automatically schedules the containers based on resource usage and constraints, without sacrificing the availability.
+
+- **Self-healing:** Kubernetes automatically replaces and reschedules the containers from failed nodes. It also kills and restarts the containers which do not respond to health checks, based on existing rules/policy.
+
+ - **Horizontal scaling:** Kubernetes can automatically scale applications based on resource usage like CPU and memory. In some cases, it also supports dynamic scaling based on customer metrics.
+
+- **Service discovery and Load balancing:** Kubernetes groups sets of containers and refers to them via a Domain Name System (DNS). This DNS is also called a Kubernetes service. Kubernetes can discover these services automatically, and load-balance requests between containers of a given service.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 ## Worker Node Components
 
 ### Container Runtime
