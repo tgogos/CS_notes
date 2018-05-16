@@ -210,3 +210,5 @@ A Pod is the smallest and simplest Kubernetes object. It is the unit of deployme
  - Mount the same external storage (volumes).
 
 ![](Pods.png)
+
+Pods are **ephemeral in nature**, and they do not have the capability to self-heal by themselves. That is why we use them with controllers, which can handle a Pod's replication, fault tolerance, self-heal, etc. Examples of controllers are Deployments, ReplicaSets, ReplicationControllers, etc. We attach the Pod's specification to other objects using Pods Templates, as we have seen in the previous section.
