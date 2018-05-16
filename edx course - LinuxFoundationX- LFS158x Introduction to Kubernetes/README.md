@@ -208,3 +208,5 @@ A Pod is the smallest and simplest Kubernetes object. It is the unit of deployme
  - Are scheduled together on the same host
  - Share the same network namespace
  - Mount the same external storage (volumes).
+
+![](Pods.png)
