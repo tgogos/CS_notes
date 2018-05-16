@@ -47,7 +47,11 @@ Container orchestrators can:
  - Keep resource usage in-check, and optimize it when necessary
  - Allow secure access to applications running inside containers.
 
-With all these built-in benefits, **it makes sense to use container orchestrators to manage containers**. 
+With all these built-in benefits, **it makes sense to use container orchestrators to manage containers**.
+
+#### Where to Deploy Container Orchestrators?
+
+Most container orchestrators can be deployed on the infrastructure of our choice. We can deploy them on bare metal, VMs, on-premise, or on a cloud of our choice. For example, Kubernetes can be deployed on our laptop/workstation, inside a company's datacenter, on AWS, on OpenStack, etc. There are even one-click installers available to set up Kubernetes on the cloud, like Google Kubernetes Engine on Google Cloud, or Azure Container Service on Microsoft Azure. Similar solutions are available for other container orchestrators, as well.
 
 <br>
 <br>
