@@ -222,7 +222,6 @@ Pods are **ephemeral in nature**, and they do not have the capability to self-he
 
 ## Connecting Users to Pods
 
-
 To access the application, a user/client needs to connect to the Pods. As Pods are ephemeral in nature, resources like IP addresses allocated to it cannot be static. Pods could die abruptly or be rescheduled based on existing requirements.
 
 Let's take, for example, a scenario in which a user/client is connected to a Pod using its IP address.
@@ -239,8 +238,8 @@ Unexpectedly, the Pod to which the user/client is connected dies, and a new Pod 
 
 To overcome this situation, Kubernetes provides a higher-level abstraction called [Service](https://kubernetes.io/docs/concepts/services-networking/service/), which logically groups Pods and a policy to access them. This grouping is achieved via **Labels** and **Selectors**, which we talked about in the previous chapter.
 
-
-
+<br>
+<br>
 
 ## Services
 
@@ -258,9 +257,8 @@ We can assign a name to the logical grouping, referred to as a **Service name**.
 
 **Grouping of Pods using the Service object**
 
-
-
-
+<br>
+<br>
 
 ## Service Object Example
 
