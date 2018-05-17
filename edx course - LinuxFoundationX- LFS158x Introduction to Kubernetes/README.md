@@ -372,7 +372,7 @@ With the **LoadBalancer** *ServiceType*:
 -   The Services are exposed at a static port on each worker node
 -   The Service is exposed externally using the underlying cloud provider's load balancer feature.
 
-![ServiceType-LoadBalancer](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/aabed46d4f2f9c203dc16c5b9221cac4/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/LoadBalancer.png)
+![ServiceType-LoadBalancer](LoadBalancer.png)
 
 **LoadBalancer**
 
