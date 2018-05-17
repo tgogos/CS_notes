@@ -489,3 +489,24 @@ A Pod with containers that do not report ready status will not receive traffic f
       periodSeconds: 5
 
 Readiness Probes are configured similarly to Liveness Probes. Their configuration also remains the same.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+## Volumes
+
+As we know, containers, which create the Pods, are ephemeral in nature. All data stored inside a container is deleted if the container crashes. However, the kubelet will restart it with a clean state, which means that it will not have any of the old data.
+
+To overcome this problem, Kubernetes uses [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/). A Volume is essentially a directory backed by a storage medium. The storage medium and its content are determined by the Volume Type.
+
+![Volume](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/1ca8c7cb6d3b677727d786c87dcd083d/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/podvolume.png)
+
+**Volumes**
+
+In Kubernetes, a Volume is attached to a Pod and shared among the containers of that Pod. The Volume has the same life span as the Pod, and it outlives the containers of the Pod - this allows data to be preserved across container restarts.
