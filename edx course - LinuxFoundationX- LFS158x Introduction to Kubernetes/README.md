@@ -510,3 +510,29 @@ To overcome this problem, Kubernetes uses [Volumes](https://kubernetes.io/docs/c
 **Volumes**
 
 In Kubernetes, a Volume is attached to a Pod and shared among the containers of that Pod. The Volume has the same life span as the Pod, and it outlives the containers of the Pod - this allows data to be preserved across container restarts.
+
+
+
+
+## Volume Types
+
+A directory which is mounted inside a Pod is backed by the underlying Volume Type. A Volume Type decides the properties of the directory, like size, content, etc. Some examples of Volume Types are:
+
+-   **emptyDir**\
+    An **empty** Volume is created for the Pod as soon as it is scheduled on the worker node. The Volume's life is tightly coupled with the Pod. If the Pod dies, the content of **emptyDir** is deleted forever.  
+-   **hostPath**\
+    With the **hostPath** Volume Type, we can share a directory from the host to the Pod. If the Pod dies, the content of the Volume is still available on the host.
+-   **gcePersistentDisk**\
+    With the **gcePersistentDisk** Volume Type, we can mount a [Google Compute Engine (GCE) persistent disk](https://cloud.google.com/compute/docs/disks/) into a Pod.
+-   **awsElasticBlockStore**\
+    With the **awsElasticBlockStore** Volume Type, we can mount an [AWS EBS Volume](https://aws.amazon.com/ebs/) into a Pod. 
+-   **nfs**\
+    With [nfs](https://en.wikipedia.org/wiki/Network_File_System), we can mount an NFS share into a Pod.
+-   **iscsi**\
+    With [iscsi](https://en.wikipedia.org/wiki/ISCSI), we can mount an iSCSI share into a Pod.
+-   **secret**\
+    With the **secret** Volume Type, we can pass sensitive information, such as passwords, to Pods. We will take a look at an example in a later chapter.
+-   **persistentVolumeClaim**\
+    We can attach a [PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) to a Pod using a **persistentVolumeClaim**. We will cover this in our next section. 
+
+You can learn more details about Volume Types in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/volumes/).
