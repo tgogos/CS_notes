@@ -257,3 +257,38 @@ We can assign a name to the logical grouping, referred to as a **Service name**.
 ![Services](Services2.png)
 
 **Grouping of Pods using the Service object**
+
+
+
+
+
+## Service Object Example
+
+
+The following is an example of a Service object:
+
+```
+kind: Service
+apiVersion: v1
+metadata:
+  name: frontend-svc
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+```
+
+In this example, we are creating a **frontend-svc** Service by selecting all the Pods that have the Label **app** set to the **frontend**. By default, each Service also gets an IP address, which is routable only inside the cluster. In our case, we have **172.17.0.4** and **172.17.0.5** IP addresses for our **frontend-svc** and **db-svc** Services, respectively. The IP address attached to each Service is also known as the ClusterIP for that Service.
+
+![A service](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/1fba1b8cafc11dfea6e4c9069431c2dd/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/SOE.png)
+
+**Accessing the Pods using Service Object**
+
+The user/client now connects to a service via the IP address, which forwards the traffic to one of the Pods attached to it. A service does the load balancing while selecting the Pods for forwarding the data/traffic.
+
+While forwarding the traffic from the Service, we can select the target port on the Pod. In our example, for **frontend-svc**, we will receive requests from the user/client on Port **80**. We will then forward these requests to one of the attached Pods on Port **5000**. If the target port is not defined explicitly, then traffic will be forwarded to Pods on the port on which the Service receives traffic.
+
+A tuple of Pods, IP addresses, along with the targetPort is referred to as a **Service endpoint**. In our case, **frontend-svc** has 3 endpoints: **10.0.1.3:5000**, **10.0.1.4:5000**, and **10.0.1.5:5000**.
