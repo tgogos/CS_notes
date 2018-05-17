@@ -227,13 +227,13 @@ To access the application, a user/client needs to connect to the Pods. As Pods a
 
 Let's take, for example, a scenario in which a user/client is connected to a Pod using its IP address.
 
-![A scenario where a user is connected to a pod via its IP address](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/804a02a9297c12e78e820ba6693f5c3c/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/service-1.png)
+![A scenario where a user is connected to a pod via its IP address](service-1.png)
 
 **A Scenario Where a User Is Connected to a Pod via Its IP Address**
 
 Unexpectedly, the Pod to which the user/client is connected dies, and a new Pod is created by the controller. The new Pod will have a new IP address, which will not be known automatically to the user/client of the earlier Pod.
 
-![A new Pod is created after the old one dies unexpectedly](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/3f0cf38178b8639549e3b78b7c634ba3/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/service-2.png)
+![A new Pod is created after the old one dies unexpectedly](service-2.png)
 
 **A New Pod Is Created After the Old One Dies Unexpectedly**
 
