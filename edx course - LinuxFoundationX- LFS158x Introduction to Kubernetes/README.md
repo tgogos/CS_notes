@@ -377,3 +377,14 @@ With the **LoadBalancer** *ServiceType*:
 **LoadBalancer**
 
 The LoadBalancer *ServiceType* will only work if the underlying infrastructure supports the automatic creation of Load Balancers and have the respective support in Kubernetes, as is the case with the Google Cloud Platform and AWS.
+
+
+## ServiceType: ExternalIP
+
+A Service can be mapped to an **ExternalIP** address if it can route to one or more of the worker nodes. Traffic that is ingressed into the cluster with the ExternalIP (as destination IP) on the Service port, gets routed to one of the the Service endpoints.
+
+![ServiceType - ExternalIP](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/0d4109849e01e60a5f67f5d715fb4ea7/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/ExternalIP.png) 
+
+**ExternalIP**
+
+Please note that ExternalIPs are not managed by Kubernetes. The cluster administrators has configured the routing to map the ExternalIP address to one of the nodes.
