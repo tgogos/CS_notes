@@ -546,7 +546,7 @@ In the containerized world, we would like to follow similar rules, but it become
 
 A Persistent Volume is a network-attached storage in the cluster, which is provisioned by the administrator.
 
-![Persistent Volume](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/7ebb80ecd3b8aeffbe1bdde0792cf110/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/pv.png)
+![Persistent Volume](pv.png)
 
 **PersistentVolume**
 
