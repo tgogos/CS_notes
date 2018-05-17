@@ -447,3 +447,6 @@ In the following example, we are checking the existence of a file `/tmp/healthy`
 The existence of the **/tmp/healthy** file is configured to be checked every 5 seconds using the **periodSeconds** parameter. The **initialDelaySeconds** parameter requests the kubelet to wait for 3 seconds before doing the first probe. When running the command line argument to the container, we will first create the **/tmp/healthy** file, and then we will remove it after 30 seconds. The deletion of the file would trigger a health failure, and our Pod would get restarted.
 
 A demonstration video covering this topic is up next.
+
+    /watch?v=Ila7OgC3eAY
+
