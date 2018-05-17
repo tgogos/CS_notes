@@ -290,3 +290,19 @@ The user/client now connects to a service via the IP address, which forwards the
 While forwarding the traffic from the Service, we can select the target port on the Pod. In our example, for **frontend-svc**, we will receive requests from the user/client on Port **80**. We will then forward these requests to one of the attached Pods on Port **5000**. If the target port is not defined explicitly, then traffic will be forwarded to Pods on the port on which the Service receives traffic.
 
 A tuple of Pods, IP addresses, along with the targetPort is referred to as a **Service endpoint**. In our case, **frontend-svc** has 3 endpoints: **10.0.1.3:5000**, **10.0.1.4:5000**, and **10.0.1.5:5000**.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## kube-proxy
+
+All of the worker nodes run a daemon called [kube-proxy](https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies), which watches the API server on the master node for the addition and removal of Services and endpoints. For each new Service, on each node, **kube-proxy** configures the iptables rules to capture the traffic for its ClusterIP and forwards it to one of the endpoints. When the service is removed, **kube-proxy** removes the iptables rules on all nodes as well.
+
+![kube-proxy and services and endpoints](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/f6184f33a4c81a2c59eb9c28bf79c3ae/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/kubeproxy.png)
+
+**kube-proxy, Services, and Endpoints**
