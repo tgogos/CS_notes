@@ -505,7 +505,7 @@ As we know, containers, which create the Pods, are ephemeral in nature. All data
 
 To overcome this problem, Kubernetes uses [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/). A Volume is essentially a directory backed by a storage medium. The storage medium and its content are determined by the Volume Type.
 
-![Volume](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/1ca8c7cb6d3b677727d786c87dcd083d/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/podvolume.png)
+![Volume](podvolume.png)
 
 **Volumes**
 
