@@ -238,3 +238,22 @@ Unexpectedly, the Pod to which the user/client is connected dies, and a new Pod 
 **A New Pod Is Created After the Old One Dies Unexpectedly**
 
 To overcome this situation, Kubernetes provides a higher-level abstraction called [Service](https://kubernetes.io/docs/concepts/services-networking/service/), which logically groups Pods and a policy to access them. This grouping is achieved via **Labels** and **Selectors**, which we talked about in the previous chapter.
+
+
+
+
+## Services
+
+For example, in the following graphical representation we have used the **app** keyword as a Label, and **frontend** and **db** as values for different Pods.
+
+![A service representation](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/957221cb68bbacd773891e2a8be97d59/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/service1.png)
+
+**Grouping of Pods using Labels and Selectors**
+
+Using selectors (**app==frontend** and **app==db**), we can group them into two logical groups: one with 3 Pods, and one with just one Pod.
+
+We can assign a name to the logical grouping, referred to as a **Service name**. In our example, we have created two Services, **frontend-svc** and **db-svc**, and they have the **app==frontend** and the **app==db** Selectors, respectively.
+
+![Services](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/43deaf159772d06b10039d683640c244/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/Services2.png)
+
+**Grouping of Pods using the Service object**
