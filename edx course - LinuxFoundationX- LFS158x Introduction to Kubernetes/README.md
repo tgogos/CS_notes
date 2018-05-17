@@ -383,7 +383,7 @@ The LoadBalancer *ServiceType* will only work if the underlying infrastructure s
 
 A Service can be mapped to an **ExternalIP** address if it can route to one or more of the worker nodes. Traffic that is ingressed into the cluster with the ExternalIP (as destination IP) on the Service port, gets routed to one of the the Service endpoints.
 
-![ServiceType - ExternalIP](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/0d4109849e01e60a5f67f5d715fb4ea7/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/ExternalIP.png) 
+![ServiceType - ExternalIP](ExternalIP.png) 
 
 **ExternalIP**
 
