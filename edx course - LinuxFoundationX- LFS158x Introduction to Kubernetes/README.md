@@ -246,7 +246,7 @@ To overcome this situation, Kubernetes provides a higher-level abstraction calle
 
 For example, in the following graphical representation we have used the **app** keyword as a Label, and **frontend** and **db** as values for different Pods.
 
-![A service representation](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/957221cb68bbacd773891e2a8be97d59/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/service1.png)
+![A service representation](service1.png)
 
 **Grouping of Pods using Labels and Selectors**
 
@@ -254,6 +254,6 @@ Using selectors (**app==frontend** and **app==db**), we can group them into two 
 
 We can assign a name to the logical grouping, referred to as a **Service name**. In our example, we have created two Services, **frontend-svc** and **db-svc**, and they have the **app==frontend** and the **app==db** Selectors, respectively.
 
-![Services](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/43deaf159772d06b10039d683640c244/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/Services2.png)
+![Services](Services2.png)
 
 **Grouping of Pods using the Service object**
