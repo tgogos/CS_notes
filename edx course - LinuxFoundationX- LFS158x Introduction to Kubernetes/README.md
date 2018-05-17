@@ -352,7 +352,7 @@ Access scope is decided by S*erviceType*, which can be mentioned when creating t
 
 **ClusterIP** is the default *ServiceType*. A Service gets its Virtual IP address using the ClusterIP. That IP address is used for communicating with the Service and is accessible only within the cluster. 
 
-With the **NodePort ***ServiceType*, in addition to creating a ClusterIP, a port from the range **30000-32767** is mapped to the respective Service, from all the worker nodes. For example, if the mapped NodePort is **32233** for the service **frontend-svc**, then, if we connect to any worker node on port **32233**, the node would redirect all the traffic to the assigned ClusterIP **- 172.17.0.4**.
+With the **NodePort** *ServiceType*, in addition to creating a ClusterIP, a port from the range **30000-32767** is mapped to the respective Service, from all the worker nodes. For example, if the mapped NodePort is **32233** for the service **frontend-svc**, then, if we connect to any worker node on port **32233**, the node would redirect all the traffic to the assigned ClusterIP **- 172.17.0.4**.
 
 By default, while exposing a NodePort, a random port is automatically selected by the Kubernetes Master from the port range **30000-32767**. If we don't want to assign a dynamic port value for NodePort, then, while creating the service, we can also give a port number from the earlier specific range. 
 
