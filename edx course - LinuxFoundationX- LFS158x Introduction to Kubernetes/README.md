@@ -473,3 +473,19 @@ With TCP Liveness Probe, the kubelet attempts to open the TCP Socket to the cont
             port: 8080
           initialDelaySeconds: 15
           periodSeconds: 20
+
+## Readiness Probes
+
+Sometimes, applications have to meet certain conditions before they can serve traffic. These conditions include ensuring that the depending service is ready, or acknowledging that a large dataset needs to be loaded, etc. In such cases, we use **Readiness Probes** and wait for a certain condition to occur. Only then, the application can serve traffic.
+
+A Pod with containers that do not report ready status will not receive traffic from Kubernetes Services.
+
+    readinessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+     initialDelaySeconds: 5
+      periodSeconds: 5
+
+Readiness Probes are configured similarly to Liveness Probes. Their configuration also remains the same.
