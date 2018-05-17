@@ -356,7 +356,7 @@ With the **NodePort ***ServiceType*, in addition to creating a ClusterIP, a port
 
 By default, while exposing a NodePort, a random port is automatically selected by the Kubernetes Master from the port range **30000-32767**. If we don't want to assign a dynamic port value for NodePort, then, while creating the service, we can also give a port number from the earlier specific range. 
 
-![ServiceType - NodePort](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/c9ddb793c9e82594d751d9abcf412356/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/NodePort.png)
+![ServiceType - NodePort](NodePort.png)
 
 **NodePort**
 
