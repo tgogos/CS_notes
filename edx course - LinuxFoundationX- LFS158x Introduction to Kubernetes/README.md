@@ -283,7 +283,7 @@ spec:
 
 In this example, we are creating a **frontend-svc** Service by selecting all the Pods that have the Label **app** set to the **frontend**. By default, each Service also gets an IP address, which is routable only inside the cluster. In our case, we have **172.17.0.4** and **172.17.0.5** IP addresses for our **frontend-svc** and **db-svc** Services, respectively. The IP address attached to each Service is also known as the ClusterIP for that Service.
 
-![A service](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/1fba1b8cafc11dfea6e4c9069431c2dd/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/SOE.png)
+![A service](SOE.png)
 
 **Accessing the Pods using Service Object**
 
