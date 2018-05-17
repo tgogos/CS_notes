@@ -463,3 +463,13 @@ In the following example, the kubelet sends the **HTTP GET** request to the **/h
               value: Awesome
           initialDelaySeconds: 3
           periodSeconds: 3
+
+## TCP Liveness Probe
+
+With TCP Liveness Probe, the kubelet attempts to open the TCP Socket to the container which is running the application. If it succeeds, the application is considered healthy, otherwise the kubelet would mark it as unhealthy and restart the affected container.
+
+    livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
