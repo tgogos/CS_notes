@@ -361,3 +361,19 @@ By default, while exposing a NodePort, a random port is automatically selected b
 **NodePort**
 
 The **NodePort** *ServiceType* is useful when we want to make our Services accessible from the external world. The end-user connects to the worker nodes on the specified port, which forwards the traffic to the applications running inside the cluster. To access the application from the external world, administrators can configure a reverse proxy outside the Kubernetes cluster and map the specific endpoint to the respective port on the worker nodes.
+
+
+
+## ServiceType: LoadBalancer
+
+With the **LoadBalancer** *ServiceType*:
+
+-   NodePort and ClusterIP Services are automatically created, and the external load balancer will route to them
+-   The Services are exposed at a static port on each worker node
+-   The Service is exposed externally using the underlying cloud provider's load balancer feature.
+
+![ServiceType-LoadBalancer](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/aabed46d4f2f9c203dc16c5b9221cac4/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/LoadBalancer.png)
+
+**LoadBalancer**
+
+The LoadBalancer *ServiceType* will only work if the underlying infrastructure supports the automatic creation of Load Balancers and have the respective support in Kubernetes, as is the case with the Google Cloud Platform and AWS.
