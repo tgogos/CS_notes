@@ -536,3 +536,28 @@ A directory which is mounted inside a Pod is backed by the underlying Volume Typ
     We can attach a [PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) to a Pod using a **persistentVolumeClaim**. We will cover this in our next section. 
 
 You can learn more details about Volume Types in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/volumes/).
+
+
+## PersistentVolumes
+
+In a typical IT environment, storage is managed by the storage/system administrators. The end user will just get instructions to use the storage, but does not have to worry about the underlying storage management.
+
+In the containerized world, we would like to follow similar rules, but it becomes challenging, given the many Volume Types we have seen earlier. Kubernetes resolves this problem with the **PersistentVolume (PV)** subsystem, which provides APIs for users and administrators to manage and consume storage. To manage the Volume, it uses the PersistentVolume API resource type, and to consume it, it uses the PersistentVolumeClaim API resource type.
+
+A Persistent Volume is a network-attached storage in the cluster, which is provisioned by the administrator.
+
+![Persistent Volume](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/7ebb80ecd3b8aeffbe1bdde0792cf110/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/pv.png)
+
+**PersistentVolume**
+
+PersistentVolumes can be dynamically provisioned based on the StorageClass resource. A StorageClass contains pre-defined provisioners and parameters to create a PersistentVolume. Using PersistentVolumeClaims, a user sends the request for dynamic PV creation, which gets wired to the StorageClass resource.
+
+Some of the Volume Types that support managing storage using PersistentVolumes are:
+
+-   GCEPersistentDisk
+-   AWSElasticBlockStore
+-   AzureFile
+-   NFS
+-   iSCSI.
+
+For a complete list, as well as more details, you can check out the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes).
