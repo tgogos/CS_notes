@@ -346,3 +346,18 @@ While defining a Service, we can also choose its access scope. We can decide whe
 -   Maps to an external entity which resides outside the cluster.
 
 Access scope is decided by S*erviceType*, which can be mentioned when creating the Service.
+
+
+## ServiceType: ClusterIP and NodePort
+
+**ClusterIP** is the default *ServiceType*. A Service gets its Virtual IP address using the ClusterIP. That IP address is used for communicating with the Service and is accessible only within the cluster. 
+
+With the **NodePort ***ServiceType*, in addition to creating a ClusterIP, a port from the range **30000-32767** is mapped to the respective Service, from all the worker nodes. For example, if the mapped NodePort is **32233** for the service **frontend-svc**, then, if we connect to any worker node on port **32233**, the node would redirect all the traffic to the assigned ClusterIP **- 172.17.0.4**.
+
+By default, while exposing a NodePort, a random port is automatically selected by the Kubernetes Master from the port range **30000-32767**. If we don't want to assign a dynamic port value for NodePort, then, while creating the service, we can also give a port number from the earlier specific range. 
+
+![ServiceType - NodePort](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/c9ddb793c9e82594d751d9abcf412356/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/NodePort.png)
+
+**NodePort**
+
+The **NodePort** *ServiceType* is useful when we want to make our Services accessible from the external world. The end-user connects to the worker nodes on the specified port, which forwards the traffic to the applications running inside the cluster. To access the application from the external world, administrators can configure a reverse proxy outside the Kubernetes cluster and map the specific endpoint to the respective port on the worker nodes.
