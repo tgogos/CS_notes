@@ -395,3 +395,24 @@ Please note that ExternalIPs are not managed by Kubernetes. The cluster administ
 **ExternalName** is a special *ServiceType*, that has no Selectors and does not define any endpoints. When accessed within the cluster, it returns a **CNAME** record of an externally configured Service.
 
 The primary use case of this *ServiceType* is to make externally configured Services like **my-database.example.com** available inside the cluster, using just the name, like **my-database**, to other Services inside the same Namespace.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## Liveness
+
+If a container in the Pod is running, but the application running inside this container is not responding to our requests, then that container is of no use to us. This kind of situation can occur, for example, due to application deadlock or memory pressure. In such a case, it is recommended to restart the container to make the application available.
+
+Rather than doing it manually, we can use **Liveness Probe**. Liveness probe checks on an application's health, and, if for some reason, the health check fails, it restarts the affected container automatically.
+
+Liveness Probes can be set by defining:
+
+-   Liveness command
+-   Liveness HTTP request
+-   TCP Liveness Probe.
+
+We will discuss these three approaches in the next few sections.
