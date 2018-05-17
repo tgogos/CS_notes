@@ -322,13 +322,13 @@ As Services are the primary mode of communication in Kubernetes, we need a way t
 -   **Environment Variables**\
     As soon as the Pod starts on any worker node, the **kubelet** daemon running on that node adds a set of environment variables in the Pod for all active Services. For example, if we have an active Service called **redis-master**, which exposes port **6379**, and its ClusterIP is **172.17.0.6**, then, on a newly created Pod, we can see the following environment variables:
 
-    REDIS_MASTER_SERVICE_HOST=172.17.0.6
-    REDIS_MASTER_SERVICE_PORT=6379
-    REDIS_MASTER_PORT=tcp://172.17.0.6:6379
-    REDIS_MASTER_PORT_6379_TCP=tcp://172.17.0.6:6379
-    REDIS_MASTER_PORT_6379_TCP_PROTO=tcp
-    REDIS_MASTER_PORT_6379_TCP_PORT=6379
-    REDIS_MASTER_PORT_6379_TCP_ADDR=172.17.0.6
+        REDIS_MASTER_SERVICE_HOST=172.17.0.6
+        REDIS_MASTER_SERVICE_PORT=6379
+        REDIS_MASTER_PORT=tcp://172.17.0.6:6379
+        REDIS_MASTER_PORT_6379_TCP=tcp://172.17.0.6:6379
+        REDIS_MASTER_PORT_6379_TCP_PROTO=tcp
+        REDIS_MASTER_PORT_6379_TCP_PORT=6379
+        REDIS_MASTER_PORT_6379_TCP_ADDR=172.17.0.6
 
     With this solution, we need to be careful while ordering our Services, as the Pods will not have the environment variables set for Services which are created after the Pods are created.
 -   **DNS**\
