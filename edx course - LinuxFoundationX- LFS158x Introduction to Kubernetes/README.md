@@ -567,13 +567,13 @@ For a complete list, as well as more details, you can check out the [Kubernetes 
 
 A **PersistentVolumeClaim (PVC)** is a request for storage by a user. Users request for PersistentVolume resources based on size, access modes, etc. Once a suitable PersistentVolume is found, it is bound to a PersistentVolumeClaim.
 
-![Persistent Volume Claim](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/722fb38405bd02e0df1a8cf0a27cef27/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/pvc1.png)
+![Persistent Volume Claim](pvc1.png)
 
 **PersistentVolumeClaim**
 
 After a successful bound, the PersistentVolumeClaim resource can be used in a Pod.
 
-![Persistent Volume Claim used in a Pod](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/fcf7dcbb00433275fbbaa7bd5a8d400e/asset-v1:LinuxFoundationX+LFS158x+1T2018+type@asset+block/pvc2.png)
+![Persistent Volume Claim used in a Pod](pvc2.png)
 
 **PersistentVolumeClaim Used In a Pod**
 
