@@ -332,9 +332,9 @@ As Services are the primary mode of communication in Kubernetes, we need a way t
 
     With this solution, we need to be careful while ordering our Services, as the Pods will not have the environment variables set for Services which are created after the Pods are created.
 -   **DNS**\
-    Kubernetes has an [add-on](https://github.com/kubernetes/kubernetes/blob/master/cluster/addons/README.md) for [DNS](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dns), which creates a DNS record for each Service and its format is like **my-svc.my-namespace.svc.cluster.local**.Services within the same Namespace can reach to other Services with just their name. For example, if we add a Service **redis-master** in the **my-ns** Namespace, then all the Pods in the same Namespace can reach to the **redis **Service just by using its name, **redis-master**. Pods from other Namespaces can reach the Service by adding the respective Namespace as a suffix, like **redis-master.my-ns**. 
+    Kubernetes has an [add-on](https://github.com/kubernetes/kubernetes/blob/master/cluster/addons/README.md) for [DNS](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dns), which creates a DNS record for each Service and its format is like **my-svc.my-namespace.svc.cluster.local**.Services within the same Namespace can reach to other Services with just their name. For example, if we add a Service **redis-master** in the **my-ns** Namespace, then all the Pods in the same Namespace can reach to the **redis** Service just by using its name, **redis-master**. Pods from other Namespaces can reach the Service by adding the respective Namespace as a suffix, like **redis-master.my-ns**. 
 
-This is the most common and highly recommended solution. For example, in the previous section's image, we have seen that an internal DNS is configured, which maps our Services **frontend-svc **and** db-svc **to **172.17.0.4 **and **172.17.0.5**, respectively.
+This is the most common and highly recommended solution. For example, in the previous section's image, we have seen that an internal DNS is configured, which maps our Services **frontend-svc** and **db-svc** to **172.17.0.4** and **172.17.0.5**, respectively.
 
 
 ## ServiceType
