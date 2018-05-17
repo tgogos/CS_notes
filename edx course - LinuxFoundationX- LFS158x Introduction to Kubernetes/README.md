@@ -388,3 +388,10 @@ A Service can be mapped to an **ExternalIP** address if it can route to one or m
 **ExternalIP**
 
 Please note that ExternalIPs are not managed by Kubernetes. The cluster administrators has configured the routing to map the ExternalIP address to one of the nodes.
+
+
+## ServiceType: ExternalName
+
+**ExternalName** is a special *ServiceType*, that has no Selectors and does not define any endpoints. When accessed within the cluster, it returns a **CNAME** record of an externally configured Service.
+
+The primary use case of this *ServiceType* is to make externally configured Services like **my-database.example.com** available inside the cluster, using just the name, like **my-database**, to other Services inside the same Namespace.
