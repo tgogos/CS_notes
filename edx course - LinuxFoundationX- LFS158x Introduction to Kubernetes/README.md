@@ -582,7 +582,7 @@ Once a user finishes its work, the attached PersistentVolumes can be released. T
 To learn more, you can check out the [Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims).
 
 
-##Container Storage Interface (CSI)
+## Container Storage Interface (CSI)
 
 At the time this course was created, container orchestrators like Kubernetes, Mesos, Docker or Cloud Foundry had their own way of managing external storage using Volumes.
 
