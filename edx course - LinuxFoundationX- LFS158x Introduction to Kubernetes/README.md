@@ -589,3 +589,5 @@ At the time this course was created, container orchestrators like Kubernetes, Me
 For storage vendors, it is difficult to manage different Volume plugins for different orchestrators. Storage vendors and community members from different orchestrators are working together to standardize the Volume interface; a volume plugin built using a standardized CSI would work on different container orchestrators. You can find [CSI specifications](https://github.com/container-storage-interface/spec/blob/master/spec.md) here.
 
 Kubernetes 1.9 added alpha support for CSI, which makes installing new CSI-compliant Volume plugins very easy. With CSI, third-party storage providers can develop solutions without the need to add them into the core Kubernetes codebase.
+
+    /watch?v=6Z1CrunVg2w
