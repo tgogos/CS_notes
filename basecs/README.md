@@ -120,21 +120,44 @@ Well, there's method to madness, and as it turns out, the method is a queue. **R
 ![](imgs/request_queuing.jpeg)
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 ## How To Not Be Stumped By Trees
 
-![](imgs/balanced_trees.jpeg)
+In **linear data structures --- **such as arrays or linked lists --- the data is ordered, and that order matters; the way that you traverse a linear data structure is directly related to its order, because the elements in a linear data structure can only be traversed *sequentially*.
 
 ![](imgs/linear_data_structures.jpeg)
 
+...a root node could have links to *multiple* other nodes. And *this right here* is the fundamental difference between the linear structures we've looked at so far and the trees we're learning about now. One node can connect to many others, which means that trees can grow in different shapes and ways.
+
+Just as long as you can remember that***the data is hierarchical* **in nature, the jargon should hopefully be little less worrisome to think about.
+
 ![](imgs/parts_of_a_tree.jpeg)
 
-![](imgs/trees_depth_height.jpeg)
+![](imgs/tree_truths.jpeg)
 
-![](imgs/trees_filesystem.jpeg)
+Trees are **recursive data structures** because a tree is usually composed of smaller trees --- often referred to as *subtrees* --- inside of it. The child of one node in a tree could very well be the parent of another tree (making it the root node of a subtree). This can be really interesting when it comes to writing algorithms to traverse or search through a tree, since the nesting of trees can sometimes lead us to writing recursive search algorithms.
 
 ![](imgs/trees_recursive.jpeg)
 
-![](imgs/tree_truths.jpeg)
+![](imgs/trees_depth_height.jpeg)
+
+The reason that depth and height are so important is because they tell us a lot about what a tree looks like, right off the bat. And the thing about trees is that they can all look different. One quick example of this is **balanced trees versus unbalanced trees**.
+
+![](imgs/balanced_trees.jpeg)
+
+A tree is considered to be **balanced** if any two sibling subtrees do not differ in height by more than one level. However, if two sibling subtrees differ significantly in height (and have more than one level of depth of difference), the tree is **unbalanced**.
+
+Balanced trees come up when we talk about tree operations, and traversal in particular. The idea behind this is that if we can traverse a tree and cut down on half of the number of operations, we'll have a better performing data structure. However, in an unbalanced tree, this definitely is not the case, because one subtree could be significantly larger than its sibling's subtree. A lot of the operational efficiency problems that balanced trees solve are actually called **binary trees**.
+
+![](imgs/trees_filesystem.jpeg)
+
+
+
+
 
