@@ -7,3 +7,4 @@ Computer Science notes from various sources
 
 ## Kubernetes
  - [Introduction to Kubernetes (edx course - LinuxFoundation)](Introduction_to_Kubernetes/README.md)
+ - [k8s for beginners (by @jpetazzo)](k8s_for_beginners/README.md)
