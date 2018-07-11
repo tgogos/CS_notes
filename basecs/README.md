@@ -23,3 +23,12 @@ On the other hand, a dynamic data structure can shrink and grow in memory. It do
 A ***circular linked list*** is a little odd in that it doesn't end with a node pointing to a null value. Instead, it has a node that acts as the *tail* of the list (rather than the conventional head node), and the node after the tail node is the beginning of the list. This organization structure makes it really easy to add something to the end of the list, because you can begin traversing it at the **tail**node, as the first element and last element point to one another. Circular linked lists can start to get really crazy because we can turn both a singly linked list and a doubly linked list *into* a circular linked list!
 
 ![](imgs/types_of_linked_lists.jpeg)
+
+
+## What’s a Linked List, Anyway? [Part 2]
+
+> There are two major points to consider when thinking about how an algorithm performs: how much time it requires at runtime given how much time and memory it needs.
+
+As far as linked lists go, however, the two types of Big O equations to remember are O(1) and O(n).
+
+![](imgs/big-O-notation.jpeg)
