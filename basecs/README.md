@@ -6,6 +6,7 @@ Click to jump directly to section:
  - [What’s a Linked List, Anyway? [Part 1]](#whats-a-linked-list-anyway-part-1)
  - [What’s a Linked List, Anyway? [Part 2]](#whats-a-linked-list-anyway-part-2)
  - [Stacks and Overflows](#stacks_and_overflows)
+ - [To Queue Or Not To Queue](#to-queue-or-not-to-queue)
 
 
 <br>
@@ -92,3 +93,23 @@ Regardless of which language a stack is implemented in, there are a couple funct
 ![](imgs/stacks_in_wild.jpeg)
 
 ![](imgs/call_stack.jpeg)
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+## To Queue Or Not To Queue
+
+![](imgs/nqueue_dequeue_methods.jpeg)
+
+![](imgs/queue_fifo.jpeg)
+
+![](imgs/queues_implementations_with_arrays_linked-lists.jpeg)
+
+![](imgs/multilevel_system-specific_priority_queue.jpeg)
+
+![](imgs/request_queuing.jpeg)
