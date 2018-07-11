@@ -2,6 +2,11 @@
 
 by  Vaidehi Joshi [@vaidehijoshi](https://twitter.com/vaidehijoshi)
 
+Click to jump directly to section:
+ - [What’s a Linked List, Anyway? [Part 1]](#whats-a-linked-list-anyway-part-1)
+ - [What’s a Linked List, Anyway? [Part 2]](#whats-a-linked-list-anyway-part-2)
+ - [Stacks and Overflows](Stacks_and_Overflows)
+
 ## What’s a Linked List, Anyway? [Part 1]
 
 One characteristic of linked lists is that they are **linear data structures**, which means that there is a sequence and an order to how they are constructed and traversed. Linear structures, however, are the opposite of non-linear structures. In **non-linear data structures**, items don't have to be arranged in order, which means that we could traverse the data structure *non-sequentially*.
@@ -42,3 +47,6 @@ A good rule of thumb for remember the characteristics of linked lists is this:
 > a linked list is usually efficient when it comes to adding and removing most elements, but can be very slow to search and find a single element.
 
 ![](imgs/linked-lists-vs-arrays.jpeg)
+
+
+## Stacks and Overflows
