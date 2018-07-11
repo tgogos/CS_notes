@@ -37,4 +37,8 @@ Inserting an element at the beginning of a linked list is particularly nice and 
 
 ![](imgs/linked-lists-bigO.jpeg)
 
+A good rule of thumb for remember the characteristics of linked lists is this:
+
+> a linked list is usually efficient when it comes to adding and removing most elements, but can be very slow to search and find a single element.
+
 ![](imgs/linked-lists-vs-arrays.jpeg)
