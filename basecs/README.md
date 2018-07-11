@@ -5,7 +5,15 @@ by  Vaidehi Joshi [@vaidehijoshi](https://twitter.com/vaidehijoshi)
 Click to jump directly to section:
  - [What’s a Linked List, Anyway? [Part 1]](#whats-a-linked-list-anyway-part-1)
  - [What’s a Linked List, Anyway? [Part 2]](#whats-a-linked-list-anyway-part-2)
- - [Stacks and Overflows](Stacks_and_Overflows)
+ - [Stacks and Overflows](#stacks_and_overflows)
+
+
+
+
+
+
+
+
 
 ## What’s a Linked List, Anyway? [Part 1]
 
@@ -30,6 +38,13 @@ A ***circular linked list*** is a little odd in that it doesn't end with a node 
 ![](imgs/types_of_linked_lists.jpeg)
 
 
+
+
+
+
+
+
+
 ## What’s a Linked List, Anyway? [Part 2]
 
 > There are two major points to consider when thinking about how an algorithm performs: how much time it requires at runtime given how much time and memory it needs.
@@ -49,4 +64,24 @@ A good rule of thumb for remember the characteristics of linked lists is this:
 ![](imgs/linked-lists-vs-arrays.jpeg)
 
 
+
+
+
+
+
+
+
+
 ## Stacks and Overflows
+
+![](imgs/how_stacks_work.jpeg)
+	
+![](imgs/stacks_lifo.jpeg)
+
+![](imgs/imp_stacks_arr_vs_llist.jpeg)
+
+![](imgs/push_pop.jpeg)
+
+![](imgs/stacks_in_wild.jpeg)
+
+![](imgs/call_stack.jpeg)
