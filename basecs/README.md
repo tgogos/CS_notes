@@ -32,3 +32,9 @@ A ***circular linked list*** is a little odd in that it doesn't end with a node 
 As far as linked lists go, however, the two types of Big O equations to remember are O(1) and O(n).
 
 ![](imgs/big-O-notation.jpeg)
+
+Inserting an element at the beginning of a linked list is particularly nice and efficient because **it takes the same amount of time, no matter how long our list is**, which is to say it has a space time complexity that is *constant*, or **O(1)**.
+
+![](imgs/linked-lists-bigO.jpeg)
+
+![](imgs/linked-lists-vs-arrays.jpeg)
