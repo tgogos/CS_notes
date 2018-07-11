@@ -38,11 +38,11 @@ A ***circular linked list*** is a little odd in that it doesn't end with a node 
 ![](imgs/types_of_linked_lists.jpeg)
 
 
-
-
-
-
-
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 ## What’s a Linked List, Anyway? [Part 2]
@@ -64,12 +64,11 @@ A good rule of thumb for remember the characteristics of linked lists is this:
 ![](imgs/linked-lists-vs-arrays.jpeg)
 
 
-
-
-
-
-
-
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 ## Stacks and Overflows
