@@ -112,4 +112,8 @@ Regardless of which language a stack is implemented in, there are a couple funct
 
 ![](imgs/multilevel_system-specific_priority_queue.jpeg)
 
+When multiple (think hundreds or hundreds of thousands) of machines request data or send data to an application's server, the server can be inundated with a lot of requests. Have you ever wondered how it handles those request? And how it processes all of them...without exploding?
+
+Well, there's method to madness, and as it turns out, the method is a queue. **Request queuing** is the procedure of handling requests before they even enter an application to be processed.
+
 ![](imgs/request_queuing.jpeg)
