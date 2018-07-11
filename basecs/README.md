@@ -19,3 +19,7 @@ On the other hand, a dynamic data structure can shrink and grow in memory. It do
 > A node only knows about what data it contains, and who its neighbor is.
 
 ![](imgs/parts_of_a_linked_list.jpeg)
+
+A ***circular linked list*** is a little odd in that it doesn't end with a node pointing to a null value. Instead, it has a node that acts as the *tail* of the list (rather than the conventional head node), and the node after the tail node is the beginning of the list. This organization structure makes it really easy to add something to the end of the list, because you can begin traversing it at the **tail**node, as the first element and last element point to one another. Circular linked lists can start to get really crazy because we can turn both a singly linked list and a doubly linked list *into* a circular linked list!
+
+![](imgs/types_of_linked_lists.jpeg)
