@@ -79,6 +79,14 @@ A good rule of thumb for remember the characteristics of linked lists is this:
 
 ![](imgs/imp_stacks_arr_vs_llist.jpeg)
 
+Regardless of which language a stack is implemented in, there are a couple functions that will almost always be needed:
+
+-   **push**: the function that's used to add elements into the stack
+-   **pop**: the function that's used to remove elements from the stack
+-   **top** (***peek***): a function that returns the first value (what's on top of the stack), but doesn't remove it
+-   **isEmpty**: a function that checks if the stack is empty or not --- super helpful when trying to clear all the elements from a stack
+-   **size**: a function that returns the number of elements that are in a stack at any given time
+
 ![](imgs/push_pop.jpeg)
 
 ![](imgs/stacks_in_wild.jpeg)
