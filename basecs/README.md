@@ -7,6 +7,7 @@ Click to jump directly to section:
  - [What’s a Linked List, Anyway? [Part 2]](#whats-a-linked-list-anyway-part-2)
  - [Stacks and Overflows](#stacks_and_overflows)
  - [To Queue Or Not To Queue](#to-queue-or-not-to-queue)
+ - [How To Not Be Stumped By Trees](#how-not-to-be-stumped-by-trees)
 
 
 <br>
@@ -117,3 +118,23 @@ When multiple (think hundreds or hundreds of thousands) of machines request data
 Well, there's method to madness, and as it turns out, the method is a queue. **Request queuing** is the procedure of handling requests before they even enter an application to be processed.
 
 ![](imgs/request_queuing.jpeg)
+
+
+
+
+## How To Not Be Stumped By Trees
+
+![](imgs/balanced_trees.jpeg)
+
+![](imgs/linear_data_structures.jpeg)
+
+![](imgs/parts_of_a_tree.jpeg)
+
+![](imgs/trees_depth_height.jpeg)
+
+![](imgs/trees_filesystem.jpeg)
+
+![](imgs/trees_recursive.jpeg)
+
+![](imgs/tree_truths.jpeg)
+
