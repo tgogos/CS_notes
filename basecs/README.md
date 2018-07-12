@@ -168,13 +168,37 @@ Balanced trees come up when we talk about tree operations, and traversal in part
 
 ## Leaf It Up To Binary Trees
 
+Trees are *recursive data structures*, which means that a single tree is made up of many others. Every binary tree will contain two subtrees within it: a left subtreeand a right subtree.
+
+The recursive aspect of a binary search tree is part of what makes it so powerful. The very fact that we know that one single BST can be split up and evenly divided into mini-trees within it will come in handy later when we start traversing down the tree!
+
 ![](imgs/subtrees.jpeg)
+
+All of the subtrees to the left of a node will always be smaller in value than the subtrees to the right of a node - and of course, because of the recursive nature of trees, this applies not just to the main overarching tree structure, but to every single nested subtree as well.
 
 ![](imgs/btrees_order_by_value.jpeg)
 
+> Any tree can be a binary tree if each node has only two child nodes. It's the ordering of nodes that makes a binary tree searchable and, by extension, what makes it so powerful.
+
 ![](imgs/btrees_how_to_insert.jpeg)
 
+We can pseudocode an **insert()** function pretty easily simply because of the rules of ordering of a BST:
+
+1.  We start at the root node, and compare that value of the root node (`26`) to the item we want.
+2.  Since `21` is *less than* `26`, we immediately determine that the item we want to insert is going to live somewhere within the left subtree of the larger binary search tree.
+3.  We look at the new "root" node: `19`. We know that the item we want to insert, `21`, is greater than `19`. So, we move to the right node of the node `19`, since we know the item we are inserting is larger and has to be on the right subtree.
+4.  Now we come to a leaf on the subtree: the node is `24`, which is bigger than `21`. We need to insert our item somewhere here, but we also need to make sure that the node with a value of `24` is in the correct place.
+5.  We set the node we're inserting,`21`, to point it's right pointer reference to the pre-existing node `24`, since `24` is greater than `21`. And our insert is done!
+
+Binary search trees are really special in computer science. And the reason for this is simple: they allow you to leverage the power of the binary search algorithm.
+
+> A binary search is an algorithm that simplifies and speeds up searching through a sorted collection by dividing the search set into two groups and comparing an element to one that is larger or smaller than the one you're looking for.
+
 ![](imgs/btrees_devide_and_conquer.jpeg)
+
+If we take a look at this example again, we'll notice that with each check and comparison that we do, we actually *eliminate*** *half*** *of the remaining elements*that we need to check. Think about that for a second.
+
+> In the process of narrowing down the search set, we also *remove half of the search space.* That's enormously powerful - and that's exactly what makes binary searches so powerful.
 
 ![](imgs/btrees_used_by_git.jpeg)
 
