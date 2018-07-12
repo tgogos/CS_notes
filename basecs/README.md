@@ -8,6 +8,7 @@ Click to jump directly to section:
  - [Stacks and Overflows](#stacks_and_overflows)
  - [To Queue Or Not To Queue](#to-queue-or-not-to-queue)
  - [How To Not Be Stumped By Trees](#how-not-to-be-stumped-by-trees)
+ - [Leaf It Up To Binary Trees](leaf-it-up-to-binary-trees)
 
 
 <br>
@@ -158,6 +159,22 @@ Balanced trees come up when we talk about tree operations, and traversal in part
 ![](imgs/trees_filesystem.jpeg)
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
+## Leaf It Up To Binary Trees
+
+![](imgs/subtrees.jpeg)
+
+![](imgs/btrees_order_by_value.jpeg)
+
+![](imgs/btrees_how_to_insert.jpeg)
+
+![](imgs/btrees_devide_and_conquer.jpeg)
+
+![](imgs/btrees_used_by_git.jpeg)
 
