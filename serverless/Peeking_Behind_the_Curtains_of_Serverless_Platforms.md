@@ -31,3 +31,10 @@ the resulting opacity hinders adoption for many potential users, who have expres
  - security in terms of the quality of isolation, DDoS resistance, and more...
  - the need to understand resource management to improve application performance
  - and the ability of platforms to deliver on performance
+
+**Highlights of results:**
+
+ - AWS Lambda achieved the **best scalability** and the **lowest coldstart latency** (the time to provision a new function instance), followed by GCF. But the **lack of performance isolation** in AWS between function instances from the same account caused up to a 19x decrease in I/O, networking, or coldstart performance.
+ - Azure Functions used different types of VMs as hosts: 55% of the time a function instance runs on a VM with debased performance.
+ - Azure had exploitable placement **vulnerabilities**: a tenant can arrange for function instances to run on the same VM as another tenant’s, which is a stepping stone towards cross-function side-channel attacks.
+ - An **accounting issue** in GCF enabled one to use a function instance to achieve the same computing resources as a small VM instance at almost no cost.
