@@ -23,11 +23,11 @@ Highlights:
  - *Isolation*: A function usually executes in a **dedicated function instance (a container or other kind of sandbox)** with restricted resources such as CPU time and memory.
  - *Event-driven*: Unlike virtual machines (VMs) in more traditional infrastructure-as-a-service (IaaS) platforms, a function instance will be **launched only when the function is invoked** and is put to sleep immediately after handling a request.
 
-> Hiding resource management from tenants enables this programming model,
+Hiding resource management from tenants enables this programming model,...
 
-**but**
+**BUT:**
 
-> the resulting opacity hinders adoption for many potential users, who have expressed concerns about:
-> - security in terms of the quality of isolation, DDoS resistance, and more...
-> - the need to understand resource management to improve application performance
-> - and the ability of platforms to deliver on performance
+the resulting opacity hinders adoption for many potential users, who have expressed concerns about:
+ - security in terms of the quality of isolation, DDoS resistance, and more...
+ - the need to understand resource management to improve application performance
+ - and the ability of platforms to deliver on performance
