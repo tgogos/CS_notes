@@ -8,7 +8,7 @@ Click to jump directly to section:
  - [Stacks and Overflows](#stacks_and_overflows)
  - [To Queue Or Not To Queue](#to-queue-or-not-to-queue)
  - [How To Not Be Stumped By Trees](#how-not-to-be-stumped-by-trees)
- - [Leaf It Up To Binary Trees](leaf-it-up-to-binary-trees)
+ - [Leaf It Up To Binary Trees](#leaf-it-up-to-binary-trees)
 
 
 <br>
