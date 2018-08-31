@@ -5,9 +5,9 @@ by  Vaidehi Joshi [@vaidehijoshi](https://twitter.com/vaidehijoshi)
 Click to jump directly to section:
  - [What’s a Linked List, Anyway? [Part 1]](#whats-a-linked-list-anyway-part-1)
  - [What’s a Linked List, Anyway? [Part 2]](#whats-a-linked-list-anyway-part-2)
- - [Stacks and Overflows](#stacks_and_overflows)
+ - [Stacks and Overflows](#stacks-and-overflows)
  - [To Queue Or Not To Queue](#to-queue-or-not-to-queue)
- - [How To Not Be Stumped By Trees](#how-not-to-be-stumped-by-trees)
+ - [How To Not Be Stumped By Trees](#how-to-not-be-stumped-by-trees)
  - [Leaf It Up To Binary Trees](#leaf-it-up-to-binary-trees)
 
 
