@@ -18,7 +18,9 @@ Everything is deployed in an Amazon Virtual Private Cloud (VPC) which has a subn
 
 
 
-
+<br>
+<br>
+<br>
 
 # Public Service, Private Network
 
@@ -43,6 +45,9 @@ The public facing subnet hosts a couple resources:
 The private subnet is used to run your application containers. The EC2 instances hosting the containers do not have a public IP address, only a private IP address internal to the VPC. As a result if your application initiates an outbound connection the connection gets routed through the NAT gateway in the public subnet. Additionally, there is no way for any traffic to directly reach your container. Instead all inbound connections must go to the load balancer which will pick and choose whether to pass the inbound connection on to the protected container inside the private VPC subnet.
 
 
+<br>
+<br>
+<br>
 
 # Private Service, Private Network
 
@@ -60,7 +65,23 @@ Just as in the previous architecture this design has Amazon Virtual Private Clou
 -   **Private subnet**: For internal resources. Instances in this subnet have no direct internet access, and only have private IP addresses that are internal to the VPC, not directly accessible by the public. This is where the private service is running. The private tier of the application stack has its own private load balancer which is not accessible to the public. The API gateway service is able to initiate a green connection to the private load balancer in order to reach the private service, but the public can not.
 
 
+<br>
+<br>
+<br>
 
 # Private Service, Service Discovery
 
 ![](private-subnet-private-service-discovery.png)
+
+Service discovery is a technique for getting traffic from one container to another using the containers direct IP address, instead of an intermediary like a load balancer. It is suitable for a variety of use cases:
+
+-   Private, internal service discovery
+-   Low latency communication between services
+-   Long lived bidirectional connections, such as gRPC.
+
+Note that in this private architecture there is no public subnet, just a private subnet. Containers inside the subnet can communicate to each other using their internal IP addresses. But they need some way to discover each other's IP address.
+
+AWS service discovery offers two approaches:
+
+-   **DNS based** (Route 53 create and maintains a custom DNS name which resolves to one or more IP addresses of other containers, for example `http://nginx.service.production` Then other containers can send traffic to the destination by just opening a connection using this DNS name)
+-   **API based** (Containers can query an API to get the list of IP address targets available, and then open a connection directly to one of the other container.)
