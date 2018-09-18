@@ -1,19 +1,19 @@
 
 # Public Service, Public Network
 
-![]public-subnet-public-lb.png)
+![](public-subnet-public-lb.png)
 
 
 
 # Public Service, Private Network
 
-![]private-subnet-public-lb.png)
+![](private-subnet-public-lb.png)
 
 
 
 # Private Service, Private Network
 
-![]private-subnet-private-lb.png)
+![](private-subnet-private-lb.png)
 
 
 
