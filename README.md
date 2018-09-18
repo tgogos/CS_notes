@@ -28,3 +28,9 @@ Computer Science notes from various sources
 ## Serverless
 
  - [Peeking Behind the Curtains of Serverless Platforms (paper)](/serverless/Peeking_Behind_the_Curtains_of_Serverless_Platforms.md)
+
+
+
+## AWS
+
+ - [Common Architecture Patterns with containers](/aws/architecture_patterns.md)
