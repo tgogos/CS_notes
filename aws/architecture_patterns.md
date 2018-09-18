@@ -48,6 +48,17 @@ The private subnet is used to run your application containers. The EC2 instances
 
 ![](private-subnet-private-lb.png)
 
+A private service is generally used for important internal business services that need to be protected from direct access by the public:
+
+-   Cache service such as Redis
+-   Internal API that provides a thin wrapper around a database
+-   Billing, password and authentication, or other similar service that has personally identifying information.
+
+Just as in the previous architecture this design has Amazon Virtual Private Cloud (VPC) with two subnets:
+
+-   **Public subnet**: Has an attached internet gateway to allow resources launched in that subnet to accept connections from the internet, and initiate connections to the internet. Resources in this subnet have public IP addresses. In this design there is a public facing service, perhaps an API gateway. End users are able to initiate a blue connection through the internet gateway and public facing load balancer, to the API gateway container.
+-   **Private subnet**: For internal resources. Instances in this subnet have no direct internet access, and only have private IP addresses that are internal to the VPC, not directly accessible by the public. This is where the private service is running. The private tier of the application stack has its own private load balancer which is not accessible to the public. The API gateway service is able to initiate a green connection to the private load balancer in order to reach the private service, but the public can not.
+
 
 
 # Private Service, Service Discovery
