@@ -25,9 +25,16 @@ Computer Science notes from various sources
 
 
 
+## Microservices
+ - [Tweets and discussions](microservices/tweets.md)
+
+
+
+
 ## Serverless
 
  - [Peeking Behind the Curtains of Serverless Platforms (paper)](/serverless/Peeking_Behind_the_Curtains_of_Serverless_Platforms.md)
+
 
 
 
