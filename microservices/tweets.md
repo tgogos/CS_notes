@@ -9,3 +9,7 @@ Microservices trade **complexity for velocity**. While achieving the latter is n
 
 \- I dunno - folks using a sidecar often **tradeoff latency and efficiency for ... developer productivity**. That’s always how I’ve rationalized it.
 [tweet/discussion](https://twitter.com/copyconstruct/status/1171646790610894849)
+
+
+## ability to scale VS ability to be agile & survive
+Forget that all these things exist: Microservices, Lambda, API Gateway, Containers, Kubernetes, Docker. Anything whose main value proposition is about **“ability to scale”** will likely trade off your **“ability to be agile & survive”**. That’s rarely a good trade off." [thread](https://twitter.com/dvassallo/status/1154516910265884672)
