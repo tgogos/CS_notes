@@ -1,3 +1,9 @@
+# k8s, microservices, service-mesh
+
+![](./imgs/k8s.turn.jpg)
+
+
+
 # complexity for velocity? (Sep 2019)
 Microservices trade **complexity for velocity**. While achieving the latter is not guaranteed, the former always is! [tweet](https://twitter.com/bibryam/status/1172050320442241026)
 
