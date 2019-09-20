@@ -1,6 +1,6 @@
 # k8s, microservices, service-mesh
 
-![](./imgs/k8s.turn.jpg)
+![](./imgs/k8s-turn.jpg)
 
 
 
