@@ -19,9 +19,9 @@ Forget that all these things exist: Microservices, Lambda, API Gateway, Containe
 
 
 # Discussion (June 2019)
-people: Michael Gasch, Christian Posta, William Louth, Karl Isenberg
+people: Michael Gasch, Christian Posta, William Louth, Karl Isenberg [Thread](https://twitter.com/embano1/status/1142188360192208896)
 
-\- Service meshes provide a lot of value, especially around **encryption** and **observability**. I question, though, whether circuit breaking/timeouts/retries should be externalized (deferred) to the network. [Thread](https://twitter.com/embano1/status/1142188360192208896)
+\- Service meshes provide a lot of value, especially around **encryption** and **observability**. I question, though, whether circuit breaking/timeouts/retries should be externalized (deferred) to the network.
 
 ...
 
