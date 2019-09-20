@@ -11,7 +11,7 @@ Microservices trade **complexity for velocity**. While achieving the latter is n
 
 
 
-# CPU burn (Sep 2019)
+## CPU burn (Sep 2019)
 \- The thing that nobody talks about with the whole **sidecar pattern** is how much CPU it burns. If you're moving a lot of data in/out through the proxies it can be non-trivial. Adding 10-15% to your compute budget is a serious ask.
 
 \- I dunno - folks using a sidecar often **tradeoff latency and efficiency for ... developer productivity**. That’s always how I’ve rationalized it.
@@ -19,12 +19,12 @@ Microservices trade **complexity for velocity**. While achieving the latter is n
 
 
 
-# ability to scale VS ability to be agile & survive (Jul 2019)
+## ability to scale VS ability to be agile & survive (Jul 2019)
 Forget that all these things exist: Microservices, Lambda, API Gateway, Containers, Kubernetes, Docker. Anything whose main value proposition is about **“ability to scale”** will likely trade off your **“ability to be agile & survive”**. That’s rarely a good trade off." [thread](https://twitter.com/dvassallo/status/1154516910265884672)
 
 
 
-# Discussion (Jun 2019)
+## Discussion (Jun 2019)
 people: Michael Gasch, Christian Posta, William Louth, Karl Isenberg [Thread](https://twitter.com/embano1/status/1142188360192208896)
 
 \- Service meshes provide a lot of value, especially around **encryption** and **observability**. I question, though, whether circuit breaking/timeouts/retries should be externalized (deferred) to the network.
@@ -35,7 +35,7 @@ people: Michael Gasch, Christian Posta, William Louth, Karl Isenberg [Thread](ht
 
 
 
-# A thread on "service meshes" and distributed system software complexity in general. Buckle up! (Jun 2019)
+## A thread on "service meshes" and distributed system software complexity in general. Buckle up! (Jun 2019)
 by Matt Klein [thread](https://twitter.com/mattklein123/status/1142905758847315968)
 
 \- The backlash against service mesh, K8S, and other ☁️ native tech is based, reasonably IMO, on the view that vendor marketing and **big tech thought-leading are causing  smaller orgs to not see the forest for the trees and adopt solutions that are too complex** for their actual needs.
@@ -58,7 +58,7 @@ But remember, **VERY few companies get here. Make damn sure you need the network
 
 
 
-# The year...
+## The year...
 [tweet](https://twitter.com/rettori/status/1118505668678422534)
 
 2018 - the year of service mesh <br>
