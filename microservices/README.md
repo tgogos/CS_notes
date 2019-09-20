@@ -1,4 +1,4 @@
-# k8s, microservices, service-mesh
+# 🙊 What blog-posts won’t tell you about service-meshes
 
 ![](./imgs/k8s-turn.jpg)
 
