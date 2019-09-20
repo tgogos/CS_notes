@@ -30,7 +30,7 @@ people: Michael Gasch, Christian Posta, William Louth, Karl Isenberg [Thread](ht
 
 
 # A thread on "service meshes" and distributed system software complexity in general. Buckle up!
-by Matt Klein
+by Matt Klein [thread](https://twitter.com/mattklein123/status/1142905758847315968)
 
 \- The backlash against service mesh, K8S, and other ☁️ native tech is based, reasonably IMO, on the view that vendor marketing and **big tech thought-leading are causing  smaller orgs to not see the forest for the trees and adopt solutions that are too complex** for their actual needs.
 
