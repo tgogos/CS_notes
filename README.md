@@ -26,7 +26,7 @@ Computer Science notes from various sources
 
 
 ## Microservices / Service mesh
- - [Tweets and discussions](microservices/tweets.md)
+ - [Tweets and discussions](microservices/README.md)
 
 
 
