@@ -2,7 +2,12 @@
 
 ![](./imgs/k8s-turn.jpg)
 
-
+**Spoiler**
+ - microservices trade complexity for velocity
+ - use the sidecar pattern and tradeoff latency and efficiency for developer productivity
+ - service meshes provide a lot of value, especially around encryption and observability
+ - they require a mature engineering organization
+ - if your business finds success, you organization will have to move to SoA (Service oriented Architecture) and you will start feeling the pain. Then the "service mesh" is coming for you one way or the other. But VERY few companies get here...
 
 ## complexity for velocity? (Sep 2019)
 Microservices trade **complexity for velocity**. While achieving the latter is not guaranteed, the former always is! [tweet](https://twitter.com/bibryam/status/1172050320442241026)
