@@ -48,3 +48,14 @@ At this point, the "service mesh" is coming for you one way or the other because
 ...
 
 But remember, **VERY few companies get here. Make damn sure you need the networking complexity you are about to take on**, because no matter what the vendors/conferences tell you, there will be pain, and nothing comes for free.
+
+
+
+
+# The year...
+[tweet](https://twitter.com/rettori/status/1118505668678422534)
+
+2018 - the year of service mesh <br>
+2019 - the year where folks are actually looking at it <br>
+2020 - the year folks try it for real <br>
+2021 - the year it doesn't work and they discover that sound design, deployment practices, and culture are still more important
