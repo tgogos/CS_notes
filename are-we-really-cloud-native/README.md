@@ -47,3 +47,14 @@ Like I said, it's a DevOps journey, because it's about modernizing your infrastr
 
 ## Choose from the spectrum of cloud abstractions
 ...it highly depends on your workload, and whether you're meeting your non-functional requirements, and even whether you're meeting your economical requirements. Even when you do serverless, and it's pay-as-you-go, it can still be more expensive than if you solve it in a more traditional way. It highly depends on the workload, so start by assembling your application from the serverless box, and if something is not in there, if it's not fitting, then you go to the PaaS box, and you start applying some of the PaaS pieces into the solution. If that still isn't the complete answer to your solution, then you mix in some of the old infrastructure as a server stuff. Maybe you still mix in some virtual instances and you mix in some of the storage types of the old cloud world.
+
+
+
+## Culture
+If you think that IT is the way to do cost optimizations, then you'll probably never reap the benefits of going down this cloud-native route, because the price you have to pay to get there is way too high. There's way too much upfront investment that you need to do in order to finally reap the benefits.
+
+> If you just think that the cloud will save you money, there's now more than enough war stories of companies that had this exact same thought that will immediately prove you wrong. By going to the cloud, we now pay much more dollars for running our infrastructure. Those kinds of stories are all around.
+
+**This is a very dangerous mindset**, not only because you will probably never get DevOps implemented in organizations like this, but also because culture seems to be the number one killer for people leaving. If you want your good people to leave, then make sure you have a really shitty culture; then they will all go.
+
+> It's not about the pay, it's not about the managers, it's about culture. If people don't like the culture, then they leave. Culture is something that you should take into account.
