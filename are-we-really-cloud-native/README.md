@@ -24,12 +24,15 @@ The problem with DevOps is dinosaurs - I'm not talking about the DBAs here, by t
 
 
 
-## What is an App?
+## What is an App? (2009 Vs 2019)
 Whether you're doing microservices or not, if you think about what is an application, if you think about this for a second, you try and come up with an answer, let's say, 10 years ago, let's say the 2009 answer to this. That will probably be, **"An application is like a bunch of code that I have to build and test together. I toss it over the wall to the ops team, and I hope they can get it to run on a bunch of servers that they have provisions.** I hope that there are users trying to use this application so we're not wasting too much dollars on our investment and infrastructure and everything else."
 
 That was a pretty obvious way to do it, but now, **the 2019 answer** would probably be something like this:
 
 > "An application is probably like a mix of a bunch of managed services in the public cloud, connected and customized with our own highly differentiated business logic. Then we glue everything together, which then runs and bills only when needed. When nobody runs it, we pay nothing, and if there are a lot of users, then we pay some more money, but we're probably fine with that because that seems to be like a nice economic scale.
+
+
+## Cloud-native is transformational journey and getting DevOps right
 
 > Cloud-native in this is some sort of a **DevOps journey** to me.
 
