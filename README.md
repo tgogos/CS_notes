@@ -31,6 +31,12 @@ Computer Science notes from various sources
 
 
 
+## Cloud
+ - [Are we really cloud-native?](are-we-really-cloud-native/README.md)
+ 
+ 
+
+
 ## Serverless
 
  - [Peeking Behind the Curtains of Serverless Platforms (paper)](/serverless/Peeking_Behind_the_Curtains_of_Serverless_Platforms.md)
