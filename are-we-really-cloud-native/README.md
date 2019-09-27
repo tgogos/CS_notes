@@ -17,6 +17,7 @@ You can ask, "Are you saying that microservices are a bad idea?" No that's not e
 
 > This is the first thing that you'll learn when you start to do software design, cohesion, over coupling. There are a bunch of ways of introducing modularity. Some do it on the code level. If you have a large codebase, then you can start to introduce modularity on the language level. With things like a Java module system, or with OSGI, if you like, you can start to break up a bigger codebase into smaller modules, and then glue them together. When the pace of innovation or the pace of change goes up, you are more confident when you start modifying things over here, that things over there will not break down. Modularity is always a good tool. To me, **microservices is just another level of doing modularity**. If you break up the monolith, if you break up the large codebase into smaller parts, then you need to add that level to do modularity. Microservices to me, in essence, are a modularity tool.
 
+![](trade-offs-of-decomposition.png)
 
 ## DevOps & Agile
 Another huge problem area is DevOps. DevOps is not new, how can this be a problem area? The thing with DevOps is that there are parallels to draw between DevOps and agile. If you think back in time, when we started doing agile, the whole idea of Agile was really well-received. I think it didn't take us long to understand what it was about. It didn't take us long to understand what the benefits were, and then we started introducing it.
