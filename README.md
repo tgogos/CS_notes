@@ -32,7 +32,7 @@ Computer Science notes from various sources
 
 
 ## Cloud
- - [Are we really cloud-native?](are-we-really-cloud-native/README.md)
+ - [Are we really cloud-native?](are-we-really-cloud-native/README.md) hand-picked parts from InfoQ [presentation](https://www.infoq.com/presentations/cloud-native-intro/)
  
  
 
