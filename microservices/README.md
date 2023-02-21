@@ -72,9 +72,20 @@ But remember, **VERY few companies get here. Make damn sure you need the network
 2021 - the year it doesn't work and they discover that sound design, deployment practices, and culture are still more important
 
 
+
+
 ## Is eBPF The End Of Kubernetes Sidecar Containers?
 
 Youtube [video](https://www.youtube.com/watch?v=7ZVQSg9HX68) by [@Viktor Farcic](https://twitter.com/vfarcic)
 
 > *Sidecars provide extensibility at the cost of resource usage, complexity, stability, etc...*
 
+
+
+## service mess
+
+> ***service mess  /ˈsərvəs mes/***  
+*noun*  
+>  
+>*1. the result of **spending more compute resources than your actual business logic** dynamically generating and distributing Envoy proxy configs and TLS certificates.  
+12:43 AM · Jul 14, 2019* [tweet](https://twitter.com/kelseyhightower/status/1150158904900431873)
