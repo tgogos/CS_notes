@@ -70,3 +70,11 @@ But remember, **VERY few companies get here. Make damn sure you need the network
 2019 - the year where folks are actually looking at it <br>
 2020 - the year folks try it for real <br>
 2021 - the year it doesn't work and they discover that sound design, deployment practices, and culture are still more important
+
+
+## Is eBPF The End Of Kubernetes Sidecar Containers?
+
+Youtube [video](https://www.youtube.com/watch?v=7ZVQSg9HX68) by [@Viktor Farcic](https://twitter.com/vfarcic)
+
+> *Sidecars provide extensibility at the cost of resource usage, complexity, stability, etc...*
+
