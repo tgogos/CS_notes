@@ -19,7 +19,7 @@ Computer Science notes from various sources
 
 ## Auth
  - [Signing in, and how the server remembers](auth/README.md)
- - [Letting Keycloak check the password](auth/README.md#letting-keycloak-check-the-password)
+ - [Part 2: Letting Keycloak check the password](auth/README.md#part-2-letting-keycloak-check-the-password)
 
 
 

@@ -2,11 +2,36 @@
 
 A person types a password once. Every request after that is a new one, and HTTP has forgotten the last. This note is how a server keeps treating those requests as the same person.
 
-There are two proofs. A browser carries a **session cookie**. A program carries an **API token**. Both start from the same password check. They travel differently, so they fail differently.
+There are two proofs. A browser carries a **session cookie**. A program carries an **API token**. Both start from a password check. They travel differently, so they fail differently.
 
-The second half of this note hands that password check to Keycloak. The session cookie and the CSRF check stay. The API token changes.
+The note is in two parts. Part 1 is the case where our own server checks the password. Part 2 hands that check to Keycloak. The session cookie and the CSRF check stay. The API token changes.
 
-## HTTP forgets the login
+## Structure
+
+**[Part 1: The server checks the password](#part-1-the-server-checks-the-password)**
+
+- [HTTP forgets the login](#http-forgets-the-login)
+- [A session cookie](#a-session-cookie)
+- [The request after login](#the-request-after-login)
+- [CSRF: the cookie sends itself](#csrf-the-cookie-sends-itself)
+- [A second secret](#a-second-secret)
+- [A caller that is not a browser](#a-caller-that-is-not-a-browser)
+- [The API token](#the-api-token)
+- [The two proofs](#the-two-proofs)
+
+**[Part 2: Letting Keycloak check the password](#part-2-letting-keycloak-check-the-password)**
+
+- [The browser is sent away](#the-browser-is-sent-away)
+- [The page after Keycloak](#the-page-after-keycloak)
+- [The access token on an API call](#the-access-token-on-an-api-call)
+- [A form on our site that forwards the password](#a-form-on-our-site-that-forwards-the-password)
+- [What usually gets in the way](#what-usually-gets-in-the-way)
+
+## Part 1: The server checks the password
+
+Our server stores the password hash and checks it. The browser then carries a session cookie. A program carries an API token we created.
+
+### HTTP forgets the login
 
 The person typed a username and a password. The server checked the password hash and it matched. Then the person clicks through to a page.
 
@@ -14,7 +39,7 @@ That click is a new request. The server sees "please show me this page" and ther
 
 That memory is called a **session**. A session is the stretch of requests, after a successful login, that the server treats as this user.
 
-## A session cookie
+### A session cookie
 
 Something has to travel with each request and say "this is still that login." What is needed is a unique value that the server created and that the browser sends back. That value is a **token**. When the browser carries it in a cookie, the token is a **session cookie**.
 
@@ -42,7 +67,7 @@ sequenceDiagram
   Server-->>Browser: Set-Cookie, then the first page of the app
 ```
 
-## The request after login
+### The request after login
 
 ```mermaid
 sequenceDiagram
@@ -60,7 +85,7 @@ The password is not checked again. The cookie says which session this is, and th
 
 If the session lives in a row on the server, deleting that row ends it too. A signed cookie has no such row. It stays valid until it is cleared or it expires.
 
-## CSRF: the cookie sends itself
+### CSRF: the cookie sends itself
 
 The useful part of the cookie is that the browser sends it by itself. That is also the hole.
 
@@ -70,7 +95,7 @@ The server sees a valid session and would perform the delete. The person never c
 
 That is **CSRF**, cross-site request forgery. Another site causes the browser to call ours, and the session cookie rides along.
 
-## A second secret
+### A second secret
 
 The cookie cannot be the only proof on a write. We need a second secret that the other site does not know, and that the browser will not attach on its own.
 
@@ -90,13 +115,13 @@ The other site can still make the browser send the cookie. It cannot read our HT
 
 This check belongs on requests that change something: `POST`, `PUT`, `PATCH`, and `DELETE`, when the caller is the session cookie. Reading a page is usually a GET, and a GET is not the place for this secret. Logout changes something (it ends the session), so logout needs the secret too.
 
-## A caller that is not a browser
+### A caller that is not a browser
 
 A script, a mobile app, or an API docs page can call the same server. They are not walking through HTML, and they do not have the browser's habit of storing a cookie and sending it back.
 
 They have the same original problem. The password was checked once, and the next request must still prove who is calling.
 
-## The API token
+### The API token
 
 The thing we hand that program is another unique value, an **API token**.
 
@@ -125,7 +150,7 @@ A docs page such as Swagger is this same exchange. You obtain a token, paste it 
 
 Knowing who the caller is does not say what they may do. That second question is authorization: a role, or some other rule, checked on the server. Hiding a button is not the check.
 
-## The two proofs
+### The two proofs
 
 | | Session cookie | API token |
 |--|----------------|-----------|
@@ -141,7 +166,7 @@ Knowing who the caller is does not say what they may do. That second question is
 | `Authorization: Bearer` | The token hash matches a row | Rejected |
 | The user is known, and not allowed | The identity check passed, the permission check did not | Rejected |
 
-## Letting Keycloak check the password
+## Part 2: Letting Keycloak check the password
 
 The first half assumes our server is the one that checks the password. That works for one application. It gets awkward when several applications should share a login, or when the password should be checked by a service that also does one-time codes, passkeys, and account lockout.
 
@@ -149,7 +174,7 @@ The first half assumes our server is the one that checks the password. That work
 
 This way of logging in is **OpenID Connect**. The browser is sent to Keycloak and comes back with proof. Our server turns that proof into the same kind of session the first half already described.
 
-## The browser is sent away
+### The browser is sent away
 
 Our login link does not show a password form. It sends the browser to Keycloak. The redirect names our application (a client id) and includes a random `state` value we store in the visit, so we can recognise the return trip.
 
@@ -179,7 +204,7 @@ sequenceDiagram
 
 The `state` must match the one we stored before the redirect. A callback that arrives with a different state is dropped.
 
-## The page after Keycloak
+### The page after Keycloak
 
 ```mermaid
 sequenceDiagram
@@ -195,7 +220,7 @@ Keycloak is not called. The page is authenticated the same way as in the first h
 
 Sign-out clears our cookie. It should also send the browser to Keycloak's logout, so Keycloak's session ends too. Clearing only our cookie leaves Keycloak's session in place, and the next login can skip the form again.
 
-## The access token on an API call
+### The access token on an API call
 
 A program still cannot use the browser cookie. In the first half we minted a random string and stored its hash. With Keycloak, the program presents an access token Keycloak already signed.
 
@@ -223,7 +248,7 @@ If the browser already has Keycloak's session cookie, Authorize does not show th
 
 A server-side application can keep a client secret and exchange the code itself. A public client, such as Swagger or a mobile app, uses PKCE and does not get a secret.
 
-## A form on our site that forwards the password
+### A form on our site that forwards the password
 
 It is tempting to keep our own login form and have our server pass the username and password to Keycloak. Keycloak can accept that. It is called a direct access grant, the old password grant.
 
@@ -231,7 +256,7 @@ The cost shows up immediately. Our server receives the password. Keycloak also d
 
 The redirect exists so the password stays on Keycloak's page. A theme can change how that page looks. The theme is Keycloak's, on Keycloak's address.
 
-## What usually gets in the way
+### What usually gets in the way
 
 The browser and our server often use different addresses for the same Keycloak. The person opens `localhost` on a published port. Our server calls Keycloak by its internal name. The token says which address issued it, and that address has to be one we accept.
 
