@@ -17,6 +17,11 @@ Computer Science notes from various sources
 
 
 
+## Auth
+ - [Signing in, and how the server remembers](auth/README.md)
+
+
+
 
 ## Kubernetes
  - [Introduction to Kubernetes (edx course - LinuxFoundation)](Introduction_to_Kubernetes/README.md)
