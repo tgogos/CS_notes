@@ -2,7 +2,7 @@
 
 A person types a password once. The next click is a new HTTP request. HTTP does not connect that request to the login that came before it. This note is how a server keeps treating those requests as the same person.
 
-In this example the browser story uses a session cookie, and an API caller later uses a bearer token. Those are choices for the example. A browser can send a bearer token. A program can send a cookie. What matters is who stores the value, and which mechanism carries it.
+In this example the browser story uses a session cookie. An API caller, later, uses a bearer token.
 
 The note is in two parts. Part 1 is the case where our own server checks the password. Part 2 hands that check to Keycloak. Our app still creates its own session. The session cookie and the CSRF check stay.
 
@@ -30,7 +30,7 @@ The note is in two parts. Part 1 is the case where our own server checks the pas
 
 ## Part 1: The server checks the password
 
-Our server stores the password hash and checks it. It then stores a session. The browser carries only a random id for that session, in a cookie. An API caller, later in this part, carries a bearer token instead.
+Our server stores the password hash and checks it. It then stores a session.
 
 ### HTTP forgets the login
 
@@ -54,7 +54,7 @@ Three different things are easy to fold together:
 
 The server reads the ID from the cookie and looks up the session. A cookie that simply said `user_id=7`, with no lookup, would be easy to edit. Change 7 to 1 and the next request would be someone else.
 
-Three settings on the cookie are worth knowing, and no more than that:
+Three settings on the cookie are worth knowing:
 
 - `HttpOnly` means a script on the page cannot read the cookie.
 - `Secure` means the browser sends it only on HTTPS.
@@ -127,13 +127,13 @@ This check belongs on requests that change something: `POST`, `PUT`, `PATCH`, an
 
 A script, a mobile app, or an API docs page can call the same server. In this example they are not walking through our HTML, so they do not pick up the session cookie from a page.
 
-They have the same original problem. The password was checked once, and the next request must still say who is calling. Here the caller sends that proof itself, in a header, instead of relying on the browser to attach a cookie.
+They have the same original problem. The password was checked once, and the next request must still say who is calling.
 
 ### The API token
 
 The thing we hand that caller is another unique value, an **API token**. The token is the value. `Authorization: Bearer …` is only the header that carries it, the way a cookie carried the session ID.
 
-The caller sends the username and password once, to a token endpoint. The server checks the password, creates a long random string, and returns that string. The caller stores it and puts it in the header on later requests. Nothing attaches that header automatically. A forged page does not get this CSRF trick for free, because the browser will not add the victim's bearer token on its own. The call still needs a permission check. Knowing who is calling is authentication. Deciding what they may do is authorization, and it applies to a cookie request and a bearer request alike.
+The caller sends the username and password once, to a token endpoint. The server checks the password, creates a long random string, and returns that string. The caller stores it and puts it in the header on later requests. Nothing attaches that header automatically. A forged page does not get this CSRF trick for free, because the browser will not add the victim's bearer token on its own. Knowing who is calling is authentication. Deciding what they may do is authorization. That second check applies to a cookie request and a bearer request alike.
 
 ```mermaid
 sequenceDiagram
@@ -154,9 +154,7 @@ The database stores a hash of the token, not the token itself. A later request i
 
 Deleting that row ends the token. The next call with the same string fails, because the proof is the row.
 
-A docs page such as Swagger does this only when it is configured to. One common setup is a box where you paste a bearer token. The page then sends that header. It does not invent the token, and it does not send the session cookie unless the configuration says so.
-
-A permission check still runs after either proof. Hiding a button is not that check.
+A docs page such as Swagger does this only when it is configured to. One common setup is a box where you paste a bearer token. The page then sends that header. Hiding a button is not the permission check.
 
 ### The two proofs
 
@@ -167,12 +165,6 @@ A permission check still runs after either proof. Hiding a button is not that ch
 | How it travels | The browser attaches the cookie | `Authorization: Bearer …` |
 | What "valid" means | The ID names a session we still store | The hash matches a stored token |
 | On a write | The CSRF token from our page, then the permission check | The permission check |
-
-| Request | Accepted when | Otherwise |
-|---------|---------------|-----------|
-| A page | The session ID names a live session | Redirect to the login page |
-| A write from the browser | That, plus the CSRF token, plus permission | Rejected |
-| `Authorization: Bearer` | The token hash matches a row, plus permission | Rejected |
 
 ## Part 2: Letting Keycloak check the password
 
