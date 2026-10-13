@@ -13,6 +13,7 @@ The note is in two parts. Part 1 is the case where our own server checks the pas
 - [HTTP forgets the login](#http-forgets-the-login)
 - [A session cookie](#a-session-cookie)
 - [The request after login](#the-request-after-login)
+- [An alternative: storing the session in a signed cookie](#an-alternative-storing-the-session-in-a-signed-cookie)
 - [CSRF: the cookie sends itself](#csrf-the-cookie-sends-itself)
 - [A second secret](#a-second-secret)
 - [A caller that is not a browser](#a-caller-that-is-not-a-browser)
@@ -44,6 +45,8 @@ The record it keeps is called a **session**. A session is the server's memory of
 
 The session needs a name, or the next request cannot find it. The server creates a random **session ID**. The ID is not the user, and it is not the session. It only names the session record.
 
+This session ID is also a token: a value presented with a request for the server to check. Whoever possesses this particular token can use the session, so it must be kept secret.
+
 The browser has to send that ID back. In this example the carrier is a **cookie**. A cookie is a small value the server asks the browser to store. The response says `Set-Cookie`. On later requests to this site, the browser can attach it. The person does not copy it.
 
 Three different things are easy to fold together:
@@ -59,8 +62,6 @@ Three settings on the cookie are worth knowing:
 - `HttpOnly` means a script on the page cannot read the cookie.
 - `Secure` means the browser sends it only on HTTPS.
 - `SameSite` tells the browser when it may attach the cookie to a request that began on another site. That choice shows up in the CSRF story below.
-
-Some applications skip the server-side record. They put the user id in the cookie and **sign** the cookie with a secret only the server knows. A signature shows that the server wrote the value. It does not hide the value. Hiding it would be encryption. Anyone who can see the cookie can read the user id, and they cannot change it without breaking the signature. This note stays with the server-side session. The signed cookie is only the other common shape.
 
 ```mermaid
 sequenceDiagram
@@ -93,7 +94,11 @@ The password is not checked again. The ID names a session, and the session names
 
 Sign-out does two things. It deletes the session on the server, and it clears the cookie in the browser. Deleting the session matters: a stolen copy of the cookie then points at nothing. Clearing only the browser's copy would leave the server session in place.
 
-A signed cookie, the alternative above, has no server record to delete. Clearing it removes the browser's copy. A copy someone already stole stays valid until it expires, because the signature still checks out.
+### An alternative: storing the session in a signed cookie
+
+Some applications skip the server-side record. They put the user id in the cookie and **sign** the cookie with a secret only the server knows. A signature shows that the server wrote the value. It does not hide the value. Hiding it would be encryption. Anyone who can see the cookie can read the user id, and they cannot change it without breaking the signature.
+
+A signed cookie has no server record to delete. Clearing it removes the browser's copy. A copy someone already stole stays valid until it expires, because the signature still checks out. This note stays with the server-side session.
 
 ### CSRF: the cookie sends itself
 
@@ -107,7 +112,9 @@ That is **CSRF**, cross-site request forgery. Another site causes the browser to
 
 The cookie cannot be the only proof on a write. We need a second secret that the other site does not know, and that the browser will not attach on its own.
 
-At login the server makes a random CSRF token and stores it in the session. When the server renders a page, it also puts that same token into the HTML: a hidden field in a form, or a meta tag. A write that comes from our page sends the token back, in the form or in a header such as `X-CSRF-Token`. The server compares the two copies.
+At login the server makes a random CSRF token and stores it in the session. This token serves a different purpose. It does not identify the user; the session already does that. It helps protect the request against forgery.
+
+When the server renders a page, it also puts that same token into the HTML: a hidden field in a form, or a meta tag. A write that comes from our page sends the token back, in the form or in a header such as `X-CSRF-Token`. The server compares the two copies.
 
 ```mermaid
 sequenceDiagram
@@ -121,7 +128,7 @@ sequenceDiagram
 
 When the browser does attach the cookie, the other site still cannot read our HTML. Pages from one site cannot read pages from another. So it cannot copy the CSRF token into the forged form. The cookie may arrive, the token does not match, and the write is rejected.
 
-This check belongs on requests that change something: `POST`, `PUT`, `PATCH`, and `DELETE`, when the caller is the session cookie. Reading a page is usually a GET, and a GET is not the place for this secret. Logout changes something (it ends the session), so logout needs the secret too.
+This check belongs on requests that change something: `POST`, `PUT`, `PATCH`, and `DELETE`, when the caller is the session cookie. GET requests should not change application state, so a GET is not the place for this secret. Logout changes something (it ends the session), so logout needs the secret too.
 
 ### A caller that is not a browser
 
@@ -131,7 +138,7 @@ They have the same original problem. The password was checked once, and the next
 
 ### The API token
 
-The thing we hand that caller is another unique value, an **API token**. The token is the value. `Authorization: Bearer …` is only the header that carries it, the way a cookie carried the session ID.
+The thing we hand that caller is another unique value, an **API token**. The token is the value. `Authorization: Bearer …` is only the header that carries it, the way a cookie carried the session ID. "Bearer" means possession is enough: whoever presents a valid token can use it. The caller does not send the password again.
 
 The caller sends the username and password once, to a token endpoint. The server checks the password, creates a long random string, and returns that string. The caller stores it and puts it in the header on later requests. Nothing attaches that header automatically. A forged page does not get this CSRF trick for free, because the browser will not add the victim's bearer token on its own. Knowing who is calling is authentication. Deciding what they may do is authorization. That second check applies to a cookie request and a bearer request alike.
 
@@ -147,6 +154,7 @@ sequenceDiagram
   Server-->>Program: The raw token, this once
   Program->>Server: A later call, Authorization Bearer
   Server->>DB: Hash what was sent, find the row, load the user
+  Server->>Server: Check permission
   Server-->>Program: The answer
 ```
 
@@ -203,7 +211,7 @@ sequenceDiagram
   App-->>Browser: Set-Cookie with our session id
 ```
 
-Two extra values travel with a real login, and they are easy to leave out of the picture above. `state` is a random value we store before the redirect and check on the way back, so this callback belongs to the visit that started it. **PKCE** is a one-time proof that the party exchanging the code is the party that started the redirect. PKCE does not replace a client secret. A server-side client that can keep a secret still authenticates with that secret when it exchanges the code. A public client cannot keep a secret, so it cannot authenticate as a confidential client does. PKCE still binds the code exchange to the party that started the login. The library mentioned above is what should attach both.
+A real login includes additional safeguards. `state` connects the callback to the login our app started. PKCE means the authorization code cannot be exchanged without an additional one-time secret held by the client that started the flow. Our OIDC library handles these mechanisms. In this example, our backend also authenticates itself to Keycloak during the exchange.
 
 ### The page after Keycloak
 
@@ -219,7 +227,7 @@ sequenceDiagram
 
 Keycloak is not called. The page uses our session, which has its own lifetime. The access token expiring does not end that session. CSRF still applies to a write, because the browser may still attach our cookie. The permission check still applies too.
 
-Sign-out deletes our session and clears our cookie. It should also send the browser to Keycloak's logout, so Keycloak's session ends too. Clearing only our cookie leaves Keycloak's session in place, and the next login can skip the form again.
+Sign-out deletes our session and clears our cookie. If we also want to end the shared Keycloak login, we send the browser through Keycloak's logout flow. Otherwise, the next login to our app may skip the password form.
 
 ### The access token on an API call
 
@@ -246,10 +254,11 @@ sequenceDiagram
   Keycloak-->>App: JWKS
   Program->>App: Authorization Bearer, the access token
   App->>App: Check signature, algorithm, issuer, audience, expiry
+  App->>App: Check permission
   App-->>Program: The answer
 ```
 
-The check is local. It does not hear that Keycloak has since signed the user out, or disabled them, until the token expires. Asking Keycloak "is this token still valid?" on every request is possible. It is a round trip each time. This example trusts the checks above instead.
+Local validation does not learn that the user has been signed out or disabled in Keycloak. Without an additional check, the API can continue accepting the token until it expires. Asking Keycloak on every request is possible. It is a round trip each time. This example trusts the checks above instead.
 
 A docs page such as Swagger sends that token only when it is configured to. One configuration runs the same browser login, then stores the access token and sends it as `Authorization`. If the browser already has Keycloak's session cookie, that login form can be skipped. Another configuration is still the paste-a-token box from Part 1. The page does not pick one on its own.
 
@@ -265,4 +274,4 @@ A fixed public hostname can make Keycloak mark its login cookie `Secure` while t
 
 Keycloak may also stop the person on an extra step, such as "finish your profile," when the account has no email. Our callback never runs until that step is done.
 
-Checking the signature needs a library that can do the cryptography. A JWT parser alone will reject a Keycloak token signed with RS256.
+Reading a JWT is not the same as verifying it. Checking an RS256 signature requires a JWT library with the necessary cryptographic support.
