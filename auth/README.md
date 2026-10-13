@@ -123,13 +123,19 @@ Both steps are needed. After the session is deleted, a stolen copy of the cookie
 
 ### An alternative: storing the session in a signed cookie
 
-Some applications do not store a session record. They put the user id in the cookie and **sign** the cookie. The signature uses a secret that only the server knows.
+The design above stores a session record on the server. The cookie only carries the session ID.
 
-A signature shows that the server wrote the value. It does not hide the value. Hiding the value is encryption, which is a different step. Anyone who can see the cookie can read the user id. They cannot change the user id, because a change breaks the signature.
+Some applications skip that record. The cookie itself says who the user is, for example `user_id=7`.
 
-This kind of cookie has no session record to delete. Clearing the cookie removes the copy in this browser. A copy that was already stolen still works until it expires, because the signature is still valid.
+That creates the editing problem from earlier. The browser can change `7` to `1`. If the server trusts the number, the browser has become a different user.
 
-The rest of this note uses a session record on the server.
+To stop that edit, the server **signs** the cookie. It calculates a signature from the cookie's contents and a secret that only the server knows, and it stores that signature in the cookie too. On the next request the server calculates the signature again. If the user id was changed, the signature no longer matches, and the server rejects the cookie.
+
+A signature does not hide the user id. Anyone who can see the cookie can still read `user_id=7`. Hiding the value would be encryption, which is a different step. Signing only stops changes.
+
+Sign-out is weaker with this design. There is no session record to delete. The server can tell this browser to drop its cookie. A copy that someone already stole still has a valid signature, so it keeps working until the cookie expires.
+
+The rest of this note does not use a signed cookie. It uses a session record on the server.
 
 ### CSRF: the cookie sends itself
 
