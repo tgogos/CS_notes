@@ -71,7 +71,9 @@ A cookie is a small value the server asks the browser to store. After the passwo
 
 From then on, each request to this site includes that cookie. The server reads the session ID, finds the row, and reads the user id. That is how it knows who is logged in. If the cookie is missing, or the session ID does not match a row, the server sends the user back to the login page.
 
-The session ID is a **token**. A token is a value the caller sends so the server can check it. Anyone who has this session ID can use that session, so the ID must stay secret.
+The session ID is a **token**. A token is a value the caller sends so the server can check it.
+
+> **Warning.** Anyone who has this cookie can use the server as user 7. The cookie must stay secret.
 
 The cookie carries that ID, not the user id from the row. Suppose the cookie instead said `user_id=7`, and the server trusted that number with no lookup. Anyone could change `7` to `1` and be treated as a different user.
 
@@ -115,6 +117,8 @@ That creates the editing problem from earlier. The browser can change `7` to `1`
 To stop that edit, the server **signs** the cookie. It calculates a signature from the cookie's contents and a secret that only the server knows, and it stores that signature in the cookie too. On the next request the server calculates the signature again. If the user id was changed, the signature no longer matches, and the server rejects the cookie.
 
 A signature does not hide the user id. Anyone who can see the cookie can still read `user_id=7`. Hiding the value would be encryption, which is a different step. Signing only stops changes.
+
+> **Warning.** Anyone who has this cookie can use the server as user 7. The signature does not change that. The cookie must stay secret.
 
 Sign-out is weaker with this design. There is no session record to delete. The server can tell this browser to drop its cookie. A copy that someone already stole still has a valid signature, so it keeps working until the cookie expires.
 
