@@ -1,16 +1,24 @@
 # Signing in, and how the server remembers
 
-A person types a password once. The next click is a new HTTP request. HTTP does not connect that request to the login that came before it. This note is how a server keeps treating those requests as the same person.
+This note explains how a server knows who is calling after the password has been checked once.
 
-In this example the browser story uses a session cookie. An API caller, later, uses a bearer token.
+HTTP treats every request as new. A successful login does not automatically apply to the next click. The server has to connect those requests itself.
 
-The note is in two parts. Part 1 is the case where our own server checks the password. Part 2 hands that check to Keycloak. Our app still creates its own session. The session cookie and the CSRF check stay.
+This example uses two ways to do that:
+
+- The browser sends a **session cookie**.
+- An API caller, later in the note, sends a **bearer token**.
+
+The note has two parts.
+
+- **Part 1.** Our own server checks the password, then remembers the login.
+- **Part 2.** Keycloak checks the password. Our app still creates its own session. The session cookie and the CSRF check stay.
 
 ## Structure
 
 **[Part 1: The server checks the password](#part-1-the-server-checks-the-password)**
 
-- [HTTP forgets the login](#http-forgets-the-login)
+- [Why the next request is separate](#why-the-next-request-is-separate)
 - [A session cookie](#a-session-cookie)
 - [The request after login](#the-request-after-login)
 - [An alternative: storing the session in a signed cookie](#an-alternative-storing-the-session-in-a-signed-cookie)
@@ -31,37 +39,45 @@ The note is in two parts. Part 1 is the case where our own server checks the pas
 
 ## Part 1: The server checks the password
 
-Our server stores the password hash and checks it. It then stores a session.
+In this part, our server stores a hash of the password and checks that hash at login. After the check succeeds, the server stores a session.
 
-### HTTP forgets the login
+### Why the next request is separate
 
-The person typed a username and a password. The server checked the password hash and it matched. Then the person clicks through to a page.
+The user sends a username and a password. The server finds that user and checks the password hash. The check succeeds.
 
-That click is a new request. There is no password in it, and HTTP does not attach "this is the person who just logged in." The server has to remember that itself.
+The user then opens another page. That click is a new request. The password is not in this request. HTTP does not add "this is the user who just logged in."
 
-The record it keeps is called a **session**. A session is the server's memory of one login: which user it was, and whatever else this visit needs. The session sits on the server. It is not the cookie. The cookie, next, is only a way to point at it.
+So the server keeps its own record of the login. That record is called a **session**. It is stored on the server. It says which user logged in, and it can hold anything else this visit needs.
+
+The session is not a cookie. The next section adds the cookie. The cookie only points at the session.
 
 ### A session cookie
 
-The session needs a name, or the next request cannot find it. The server creates a random **session ID**. The ID is not the user, and it is not the session. It only names the session record.
+The next request has to find the right session. The server gives the session a random **session ID**.
 
-This session ID is also a token: a value presented with a request for the server to check. Whoever possesses this particular token can use the session, so it must be kept secret.
+- The ID is not the user.
+- The ID is not the session.
+- The ID is only the name of that session record.
 
-The browser has to send that ID back. In this example the carrier is a **cookie**. A cookie is a small value the server asks the browser to store. The response says `Set-Cookie`. On later requests to this site, the browser can attach it. The person does not copy it.
+The session ID is a **token**. A token is a value the caller sends so the server can check it. Anyone who has this session ID can use that session, so the ID must stay secret.
 
-Three different things are easy to fold together:
+The browser has to send the ID back. In this example, it sends the ID in a **cookie**.
 
-- The **session** is the record on the server.
-- The **session ID** is the random value that names that record.
-- The **cookie** is the mechanism that carries the ID.
+A cookie is a small value the server asks the browser to store. The server sends it with `Set-Cookie`. On later requests to this same site, the browser attaches the cookie. The user does not copy it.
 
-The server reads the ID from the cookie and looks up the session. A cookie that simply said `user_id=7`, with no lookup, would be easy to edit. Change 7 to 1 and the next request would be someone else.
+Keep these three things separate:
 
-Three settings on the cookie are worth knowing:
+- **Session:** the record stored on the server.
+- **Session ID:** the random token that names that record.
+- **Cookie:** how the browser stores the ID and sends it back.
 
-- `HttpOnly` means a script on the page cannot read the cookie.
-- `Secure` means the browser sends it only on HTTPS.
-- `SameSite` tells the browser when it may attach the cookie to a request that began on another site. That choice shows up in the CSRF story below.
+The server reads the ID from the cookie and looks up the session. Suppose the cookie instead said `user_id=7`, and the server trusted that number with no lookup. Anyone could change `7` to `1` and be treated as a different user.
+
+A cookie can also have these settings:
+
+- **HttpOnly.** A script on the page cannot read the cookie.
+- **Secure.** The browser sends the cookie only over HTTPS.
+- **SameSite.** This controls whether the browser attaches the cookie when another website starts the request. The CSRF section uses this.
 
 ```mermaid
 sequenceDiagram
@@ -90,15 +106,30 @@ sequenceDiagram
   Server-->>Browser: The page
 ```
 
-The password is not checked again. The ID names a session, and the session names the user. A missing or unknown ID on a page sends the person back to the login form.
+On this request the server does not check the password again. It does three steps:
 
-Sign-out does two things. It deletes the session on the server, and it clears the cookie in the browser. Deleting the session matters: a stolen copy of the cookie then points at nothing. Clearing only the browser's copy would leave the server session in place.
+1. Read the session ID from the cookie.
+2. Find the session with that ID.
+3. Load the user stored in that session.
+
+If the cookie is missing, or the ID does not match a session, the server sends the user back to the login page.
+
+Sign-out does two things:
+
+1. It deletes the session on the server.
+2. It clears the cookie in the browser.
+
+Both steps are needed. After the session is deleted, a stolen copy of the cookie no longer matches a session. If the server only clears the cookie in this browser, the session still exists, and a stolen copy can still use it.
 
 ### An alternative: storing the session in a signed cookie
 
-Some applications skip the server-side record. They put the user id in the cookie and **sign** the cookie with a secret only the server knows. A signature shows that the server wrote the value. It does not hide the value. Hiding it would be encryption. Anyone who can see the cookie can read the user id, and they cannot change it without breaking the signature.
+Some applications do not store a session record. They put the user id in the cookie and **sign** the cookie. The signature uses a secret that only the server knows.
 
-A signed cookie has no server record to delete. Clearing it removes the browser's copy. A copy someone already stole stays valid until it expires, because the signature still checks out. This note stays with the server-side session.
+A signature shows that the server wrote the value. It does not hide the value. Hiding the value is encryption, which is a different step. Anyone who can see the cookie can read the user id. They cannot change the user id, because a change breaks the signature.
+
+This kind of cookie has no session record to delete. Clearing the cookie removes the copy in this browser. A copy that was already stolen still works until it expires, because the signature is still valid.
+
+The rest of this note uses a session record on the server.
 
 ### CSRF: the cookie sends itself
 
