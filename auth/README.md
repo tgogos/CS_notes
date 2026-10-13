@@ -20,7 +20,7 @@ The note has two parts.
 
 - [Why the next request is separate](#why-the-next-request-is-separate)
 - [A session cookie](#a-session-cookie)
-- [The request after login](#the-request-after-login)
+- [Sign-out](#sign-out)
 - [An alternative: storing the session in a signed cookie](#an-alternative-storing-the-session-in-a-signed-cookie)
 - [CSRF: the cookie sends itself](#csrf-the-cookie-sends-itself)
 - [A second secret](#a-second-secret)
@@ -69,7 +69,7 @@ The row above stays on the server. The session ID in that row is random. The bro
 
 A cookie is a small value the server asks the browser to store. After the password check succeeds, the login response includes `Set-Cookie` with the session ID. The browser stores that cookie. On later requests to this same site, the browser attaches it. The user does not copy it.
 
-From then on, each request to this site includes that cookie. The server reads the session ID, finds the row, and reads the user id. That is how it knows who is logged in.
+From then on, each request to this site includes that cookie. The server reads the session ID, finds the row, and reads the user id. That is how it knows who is logged in. If the cookie is missing, or the session ID does not match a row, the server sends the user back to the login page.
 
 The session ID is a **token**. A token is a value the caller sends so the server can check it. Anyone who has this session ID can use that session, so the ID must stay secret.
 
@@ -95,26 +95,7 @@ sequenceDiagram
   Server-->>Browser: Set-Cookie with that id, then the first page
 ```
 
-### The request after login
-
-```mermaid
-sequenceDiagram
-  participant Browser
-  participant Server
-  participant DB as User store
-
-  Browser->>Server: Open a page (cookie carries the session id)
-  Server->>DB: Look up that id, then load the user
-  Server-->>Browser: The page
-```
-
-On this request the server does not check the password again. It does three steps:
-
-1. Read the session ID from the cookie.
-2. Find the session with that ID.
-3. Load the user stored in that session.
-
-If the cookie is missing, or the ID does not match a session, the server sends the user back to the login page.
+### Sign-out
 
 Sign-out does two things:
 
