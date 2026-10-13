@@ -126,15 +126,19 @@ The rest of this note does not use a signed cookie. It uses a session record on 
 
 ### CSRF: the cookie sends itself
 
-The useful part of the cookie is that the browser sends it by itself. That is also the hole.
+The session cookie solves the problem from the start of this note. After login, the server can tell who is calling. It does not stop every attack on that cookie.
 
-Imagine the person is logged in, so the browser is holding the session cookie. They then open some other site. That site contains a form pointed at our server, for example "delete this record," and the form submits itself. The browser builds a real POST to our server. Whether our cookie rides along depends on `SameSite`, and on whether the request counts as cross-site. When the cookie does ride along, the server sees a valid session and would perform the delete. The person never clicked anything on our site.
+One attack is **CSRF**, cross-site request forgery. The browser attaches the cookie by itself. Another site can start a request that uses that fact.
 
-That is **CSRF**, cross-site request forgery. Another site causes the browser to call ours, and the session cookie may ride along. `SameSite` blocks some of those attachments. It is not the check this example relies on. The next section still adds a secret of our own.
+A person is logged in, so the browser is holding the session cookie for our site. They then open some other site. That site has a form pointed at our server, for example a request to delete a record, and the form submits itself.
+
+The browser sends a real POST to our server. The person did not click anything on our site. Whether our cookie is included depends on `SameSite`, and on whether the request counts as cross-site. When the cookie is included, the server finds the session and would perform the delete.
+
+`SameSite` blocks some of those cases. This example does not rely on that. The next section adds a second secret.
 
 ### A second secret
 
-The cookie cannot be the only proof on a write. We need a second secret that the other site does not know, and that the browser will not attach on its own.
+That second secret is how this example stops the forged request. The other site does not know it, and the browser does not attach it on its own. The cookie is no longer the only proof on a write.
 
 At login the server makes a random CSRF token and stores it in the session. This token serves a different purpose. It does not identify the user; the session already does that. It helps protect the request against forgery.
 
