@@ -47,9 +47,21 @@ The user sends a username and a password. The server finds that user and checks 
 
 The user then opens another page. That click is a new request. The password is not in this request. HTTP does not add "this is the user who just logged in."
 
-So the server keeps its own record of the login. That record is called a **session**. It is stored on the server. It says which user logged in, and it can hold anything else this visit needs.
+So the server keeps its own record of the login. That record is called a **session**. It is stored on the server.
 
-The session is not a cookie. The next section adds the cookie. The cookie only points at the session.
+The server stores the session ID in that record, as the key. A later request brings the same ID back, and the server uses it to find this row. The password is not stored again. It was already checked.
+
+One session record looks like this:
+
+| Field | Example | What it is for |
+| --- | --- | --- |
+| Session ID | `k3p9…` | The key. The cookie carries a copy of this, so the server can find the row. |
+| User id | `7` | Which user logged in. |
+| CSRF secret | `m2q8…` | A second value for that same visit. The CSRF section explains it. |
+
+The session ID does not say who the user is. It only names this row. The user id is the fact the next request needs.
+
+The session is not a cookie. The cookie carries a copy of the session ID. The server keeps the whole row.
 
 ### A session cookie
 
@@ -123,9 +135,9 @@ Both steps are needed. After the session is deleted, a stolen copy of the cookie
 
 ### An alternative: storing the session in a signed cookie
 
-The design above stores a session record on the server. The cookie only carries the session ID.
+The design above stores a session record on the server. That record holds the user id. The cookie only carries the session ID, which is the label for the record.
 
-Some applications skip that record. The cookie itself says who the user is, for example `user_id=7`.
+Some applications skip the record. The cookie then has to carry the information the record would have held. In the simplest case, the cookie itself says who the user is, for example `user_id=7`.
 
 That creates the editing problem from earlier. The browser can change `7` to `1`. If the server trusts the number, the browser has become a different user.
 
