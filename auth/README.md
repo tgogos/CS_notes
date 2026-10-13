@@ -65,25 +65,15 @@ The session is not a cookie. The cookie carries a copy of the session ID. The se
 
 ### A session cookie
 
-The next request has to find the right session. The server gives the session a random **session ID**.
+The row above stays on the server. The session ID in that row is random. The browser still has to send `k3p9…` back, or the next request cannot find the row. In this example, the browser sends it in a **cookie**.
 
-- The ID is not the user.
-- The ID is not the session.
-- The ID is only the name of that session record.
+A cookie is a small value the server asks the browser to store. After the password check succeeds, the login response includes `Set-Cookie` with the session ID. The browser stores that cookie. On later requests to this same site, the browser attaches it. The user does not copy it.
+
+From then on, each request to this site includes that cookie. The server reads the session ID, finds the row, and reads the user id. That is how it knows who is logged in.
 
 The session ID is a **token**. A token is a value the caller sends so the server can check it. Anyone who has this session ID can use that session, so the ID must stay secret.
 
-The browser has to send the ID back. In this example, it sends the ID in a **cookie**.
-
-A cookie is a small value the server asks the browser to store. The server sends it with `Set-Cookie`. On later requests to this same site, the browser attaches the cookie. The user does not copy it.
-
-Keep these three things separate:
-
-- **Session:** the record stored on the server.
-- **Session ID:** the random token that names that record.
-- **Cookie:** how the browser stores the ID and sends it back.
-
-The server reads the ID from the cookie and looks up the session. Suppose the cookie instead said `user_id=7`, and the server trusted that number with no lookup. Anyone could change `7` to `1` and be treated as a different user.
+The cookie carries that ID, not the user id from the row. Suppose the cookie instead said `user_id=7`, and the server trusted that number with no lookup. Anyone could change `7` to `1` and be treated as a different user.
 
 A cookie can also have these settings:
 
