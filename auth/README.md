@@ -170,7 +170,13 @@ They have the same original problem. The password was checked once, and the next
 
 The thing we hand that caller is another unique value, an **API token**. The token is the value. `Authorization: Bearer …` is only the header that carries it, the way a cookie carried the session ID. "Bearer" means possession is enough: whoever presents a valid token can use it. The caller does not send the password again.
 
-The caller sends the username and password once, to a token endpoint. The server checks the password, creates a long random string, and returns that string. The caller stores it and puts it in the header on later requests. Nothing attaches that header automatically. A forged page does not get this CSRF trick for free, because the browser will not add the victim's bearer token on its own. Knowing who is calling is authentication. Deciding what they may do is authorization. That second check applies to a cookie request and a bearer request alike. Hiding a button is not the permission check.
+The caller sends the username and password once, to a token endpoint. The server checks the password, creates a long random string, and returns that string. The caller stores it and puts it in the header on later requests. Nothing attaches that header automatically. A forged page does not get this CSRF trick for free, because the browser will not add the victim's bearer token on its own.
+
+The token, like the session cookie, answers one question: who is calling. That is **authentication**.
+
+A second question comes after it: what this person may do. They may be allowed to read a record and not allowed to delete it. That is **authorization**. The server asks this for a cookie request and for a bearer request.
+
+Hiding the delete button only changes what the page shows. Someone can still send the delete. The server has to refuse it when this person is not allowed.
 
 ```mermaid
 sequenceDiagram
