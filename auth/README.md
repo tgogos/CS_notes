@@ -353,11 +353,23 @@ sequenceDiagram
 
 ### What local checking does not know
 
-On that API call, our API checks the token and the cached key. It does not ask Keycloak whether this user is still signed in. A logout at Keycloak, or an account Keycloak has since disabled, does not change the signature or the claims already in the token. Those checks do not see the change. Until the expiry claim says the token is finished, the API can still accept it.
+The check in the diagram is the usual one. Our API already has the access token and a cached public key, so it can decide without calling Keycloak on that request. A normal API call stays off Keycloak's path.
+
+On that call, our API does not ask Keycloak whether this user is still signed in. A logout at Keycloak, or an account Keycloak has since disabled, does not change the signature or the claims already in the token. Those checks do not see the change. Until the expiry claim says the token is finished, the API can still accept it.
+
+That gap stays small because the token's life is short. Keycloak creates the access token and, in this example, is not asked about it again. Whoever holds the token can use it during that life. The expiry is soon, so a logout or a disabled account is ignored only for that short time. A token that stayed valid for days would leave the gap open much longer.
+
+Some APIs ask Keycloak on every request instead. The caller still sends the access token. Our API passes that token to Keycloak and asks whether it is still active. Keycloak can answer no after a logout or after the account is disabled, so the API can reject the token before its expiry. The same question is how an API checks a token that is only a random string, with no signature of its own, the way Part 1 stored a hash and looked it up. Here Keycloak is the place that knows.
+
+Every such call waits on Keycloak. If Keycloak is slow or unreachable, the API cannot decide. The local check above still works while Keycloak is briefly unreachable, and it keeps accepting the token until expiry. This example uses that local check.
 
 ### A form on our site that forwards the password
 
-We could keep a password form on our own site and have our server send the username and password on to Keycloak. That grant is the password grant in **OAuth**, the authorization framework this login uses, also called a direct access grant. The [OAuth 2.0 Security Best Current Practice](https://www.rfc-editor.org/rfc/rfc9700) says this grant must not be used. Our server would see the password, which is what the redirect avoids, and the browser would never visit Keycloak, so Keycloak would not set its own session cookie.
+The login in this note sends the browser to Keycloak's page. Another setup keeps the username and password form on our own site. People use it when the person should stay on our address, or when an existing form should remain and Keycloak should only check the password behind it.
+
+That form posts to our server, and our server sends the username and password on to Keycloak. This is the password grant in **OAuth**, the authorization framework this login uses, also called a direct access grant. The [OAuth 2.0 Security Best Current Practice](https://www.rfc-editor.org/rfc/rfc9700) says this grant must not be used.
+
+Our server sees the password, which is what the redirect avoids. The browser never visits Keycloak, so Keycloak does not set its session cookie. A later Sign in cannot skip the password form through that shared session. The redirect leaves the password on Keycloak's page and is what lets Keycloak keep the session described above.
 
 ### Optional: state and PKCE
 
