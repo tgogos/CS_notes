@@ -237,7 +237,7 @@ Keycloak shows its own login page. The password is entered on that page, so this
 
 The browser's job ends when it delivers that code to our callback. Our backend then calls Keycloak directly and presents the code. Keycloak answers with two tokens. The browser does not make this call.
 
-The **ID token** is Keycloak's statement about the person who logged in. Our app has to check that statement before trusting it, in the same spirit as the signed cookie in Part 1: the statement must be intact, it must come from our Keycloak, it must be intended for our application, and it must still be valid. A maintained library does those checks. The details of the checks stay in the library. Our app then reads who the person is, stores a new session record under a new random session ID, and sends `Set-Cookie` with that ID. The browser is logged in to our app because of that cookie.
+The **ID token**, short for identity token, is Keycloak's statement about the person who logged in. Our app has to check that statement before trusting it, in the same spirit as the signed cookie in Part 1: the statement must be intact, it must come from our Keycloak, it must be intended for our application, and it must still be valid. A maintained library does those checks. Our app then reads who the person is, stores a new session record under a new random session ID, and sends `Set-Cookie` with that ID. The browser is logged in to our app because of that cookie.
 
 Keycloak's answer also includes an **access token**. That token is a credential for an API call. Our pages do not need it, because the session record is what later page requests will use. Receiving it during this exchange does not hand it to a script or a phone app. Those callers obtain an access token through their own login. The next sections follow that path.
 
@@ -260,7 +260,7 @@ sequenceDiagram
   App-->>Browser: Set-Cookie with our session ID
 ```
 
-A real login adds two safeguards around this trip. `state` is a value our app creates when it starts the redirect and expects to see again on the callback, so this return trip belongs to the login we started. PKCE starts before that redirect. The client creates a one-time secret and sends a derived challenge with the redirect. Keycloak stores the challenge. At the exchange, the client presents the original secret, and Keycloak checks that it matches the challenge. Someone who only sees the authorization code does not have the secret, so the exchange fails. Our library handles both. In this example our backend also authenticates itself to Keycloak during the exchange. PKCE does not authenticate the backend.
+A real login adds two safeguards around this trip. `state` is a value our app creates when it starts the redirect and expects to see again on the callback, so this return trip belongs to the login we started. Proof Key for Code Exchange (PKCE) starts before that redirect. The client creates a one-time secret and sends a derived challenge with the redirect. Keycloak stores the challenge. At the exchange, the client presents the original secret. Keycloak derives a challenge from that secret and compares it with the original challenge. Someone who only sees the authorization code does not have the secret, so the exchange fails. Our library handles both. In this example our backend also authenticates itself to Keycloak during the exchange. PKCE does not authenticate the backend.
 
 ### The page after Keycloak
 
@@ -306,7 +306,7 @@ If the browser already holds Keycloak's session cookie, the password form can be
 
 ### How our API checks a signed token
 
-Our API can check the access token without storing a hash of it. The token contains fields, and a signature over those fields. A token in this form is a **JWT**.
+Our API can check the access token without storing a hash of it. The token contains fields, and a signature over those fields. In this example Keycloak puts that access token in **JSON Web Token** (JWT) format.
 
 Part 1 used a signature so our server could detect that a cookie had been altered. The secret that made the signature stayed on our server, and our server calculated it again.
 
@@ -352,7 +352,7 @@ On that API call, our API checks the token and the cached key. It does not ask K
 
 ### A form on our site that forwards the password
 
-We could keep a password form on our own site and have our server send the username and password on to Keycloak. That grant is the password grant, also called a direct access grant. Current OAuth guidance says it must not be used. Our server would see the password, which is what the redirect avoids, and the browser would never visit Keycloak, so Keycloak would not set its own session cookie.
+We could keep a password form on our own site and have our server send the username and password on to Keycloak. That grant is the password grant in **OAuth**, the authorization framework this login uses, also called a direct access grant. The [OAuth 2.0 Security Best Current Practice](https://www.rfc-editor.org/rfc/rfc9700) says this grant must not be used. Our server would see the password, which is what the redirect avoids, and the browser would never visit Keycloak, so Keycloak would not set its own session cookie.
 
 ### Appendix: when the wiring gets in the way
 
@@ -362,4 +362,4 @@ A fixed public hostname can make Keycloak mark its login cookie `Secure` while t
 
 Keycloak may also stop the person on an extra step, such as "finish your profile," when the account has no email. Our callback never runs until that step is done.
 
-Reading a JWT is not the same as verifying it. Checking an RS256 signature requires a JWT library with the necessary cryptographic support.
+Reading a JWT is not the same as verifying it. Checking an RS256 signature, which uses RSA and SHA-256, requires a JWT library with the necessary cryptographic support.
