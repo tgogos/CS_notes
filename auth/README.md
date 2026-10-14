@@ -359,9 +359,7 @@ On that call, our API does not ask Keycloak whether this user is still signed in
 
 That gap stays small because the token's life is short. Keycloak creates the access token and, in this example, is not asked about it again. Whoever holds the token can use it during that life. The expiry is soon, so a logout or a disabled account is ignored only for that short time. A token that stayed valid for days would leave the gap open much longer.
 
-Some APIs ask Keycloak on every request instead. The caller still sends the access token. Our API passes that token to Keycloak and asks whether it is still active. Keycloak can answer no after a logout or after the account is disabled, so the API can reject the token before its expiry. The same question is how an API checks a token that is only a random string, with no signature of its own, the way Part 1 stored a hash and looked it up. Here Keycloak is the place that knows.
-
-Every such call waits on Keycloak. If Keycloak is slow or unreachable, the API cannot decide. The local check above still works while Keycloak is briefly unreachable, and it keeps accepting the token until expiry. This example uses that local check.
+> **Note.** Some APIs still ask Keycloak on every request. They do this when that short gap is not acceptable: a logout or a disabled account must make the token fail immediately, before expiry. The caller still sends the access token. Our API passes it to Keycloak and asks whether it is still active. Keycloak can answer no, so the API rejects the token. The same question is also how an API checks a token that is only a random string, with no signature of its own, the way Part 1 stored a hash and looked it up. Here Keycloak is the place that knows. Every such call waits on Keycloak. If Keycloak is slow or unreachable, the API cannot decide. This example uses the local check instead.
 
 ### A form on our site that forwards the password
 
