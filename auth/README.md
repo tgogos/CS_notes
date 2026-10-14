@@ -39,6 +39,7 @@ The note has two parts.
 - [What the token's fields tell us](#what-the-tokens-fields-tell-us)
 - [What local checking does not know](#what-local-checking-does-not-know)
 - [A form on our site that forwards the password](#a-form-on-our-site-that-forwards-the-password)
+- [Optional: state and PKCE](#optional-state-and-pkce)
 
 **[Appendix: when the wiring gets in the way](#appendix-when-the-wiring-gets-in-the-way)**
 
@@ -260,9 +261,7 @@ sequenceDiagram
   App-->>Browser: Set-Cookie with our session ID
 ```
 
-A real login adds two safeguards around this trip. `state` is a value our app creates when it starts the redirect and expects to see again on the callback, so this return trip belongs to the login we started.
-
-Proof Key for Code Exchange (PKCE) starts before that redirect. The client creates a one-time secret and sends a derived challenge with the redirect. Keycloak stores the challenge. At the exchange, the client presents the original secret. Keycloak derives a challenge from that secret and compares it with the original challenge. Someone who only sees the authorization code does not have the secret, so the exchange fails. Our library handles both. In this example our backend also authenticates itself to Keycloak during the exchange. PKCE does not authenticate the backend.
+> **Note.** The redirect and code exchange also need protection. Our app must connect the return trip to the login it started, and a stolen authorization code should not be usable by someone else. Our OpenID Connect library handles these safeguards, using mechanisms called `state` and Proof Key for Code Exchange (PKCE).
 
 ### The page after Keycloak
 
@@ -280,7 +279,7 @@ sequenceDiagram
 
 The record includes the expiry from Part 1. This page request is accepted or refused by looking at that record. The access token is not part of the check. When the access token reaches its own expiry, our session record can still be there, so the person can still open our pages until our record expires or we delete it.
 
-When the person submits a change, the browser is still proving who they are with our cookie. Another site can still cause the browser to send that cookie, which is the CSRF problem from Part 1. Our app still compares the CSRF secret stored in the session with the copy that came from our page.
+Keycloak changes how login happens. Later requests from the browser still carry our app's session cookie. Our app therefore handles CSRF the same way as in Part 1: it checks the CSRF token on requests that change application state.
 
 The record tells us who the user is. It does not decide whether they may delete a record. Our app still makes that permission check before it performs the change.
 
@@ -359,6 +358,16 @@ On that API call, our API checks the token and the cached key. It does not ask K
 ### A form on our site that forwards the password
 
 We could keep a password form on our own site and have our server send the username and password on to Keycloak. That grant is the password grant in **OAuth**, the authorization framework this login uses, also called a direct access grant. The [OAuth 2.0 Security Best Current Practice](https://www.rfc-editor.org/rfc/rfc9700) says this grant must not be used. Our server would see the password, which is what the redirect avoids, and the browser would never visit Keycloak, so Keycloak would not set its own session cookie.
+
+### Optional: state and PKCE
+
+The login section names these two safeguards. This is what they do.
+
+`state` is a value our app creates when it starts the redirect and expects to see again on the callback, so this return trip belongs to the login our app started.
+
+Proof Key for Code Exchange (PKCE) starts before that redirect. The client creates a one-time secret and sends a derived challenge with the redirect. Keycloak stores the challenge. At the exchange, the client presents the original secret. Keycloak derives a challenge from that secret and compares it with the original challenge. Someone who only sees the authorization code does not have the secret, so the exchange fails.
+
+In this example our backend also authenticates itself to Keycloak during the exchange. PKCE does not authenticate the backend.
 
 ### Appendix: when the wiring gets in the way
 
