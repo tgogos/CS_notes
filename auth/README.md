@@ -31,7 +31,9 @@ The note has two parts.
 **[Part 2: Letting Keycloak check the password](#part-2-letting-keycloak-check-the-password)**
 
 - [The browser is sent away](#the-browser-is-sent-away)
+- [Exchanging the authorization code](#exchanging-the-authorization-code)
 - [The page after Keycloak](#the-page-after-keycloak)
+- [Our session and Keycloak's session](#our-session-and-keycloaks-session)
 - [The access token on an API call](#the-access-token-on-an-api-call)
 - [A form on our site that forwards the password](#a-form-on-our-site-that-forwards-the-password)
 
@@ -212,21 +214,27 @@ A docs page such as Swagger does this only when it is configured to. One common 
 
 ## Part 2: Letting Keycloak check the password
 
-The first half assumes our server is the one that checks the password. That works for one application. It gets awkward when several applications should share a login, or when the password should be checked by a service that also does one-time codes, passkeys, and account lockout.
+In Part 1 our app checked the password. When the check succeeded, the app stored a session record and sent the browser a cookie carrying the session ID. Later page requests found that record.
 
-**Keycloak** is that service. It is a separate site whose job is to log people in. Our application becomes a client of it. The password is typed on Keycloak's page. Our app still creates the session from Part 1, and the browser still carries our session ID in our cookie.
+That puts the password check inside the application. Several applications can instead share one login service. That service can also keep one-time codes, passkeys, and account lockout in one place, so each application does not have to build them. **Keycloak** is that service. It is a separate site. Our app is a client of it. The person types the password on Keycloak's page. When our app has a login result it can trust, it creates the same kind of session record as in Part 1, and the browser carries our session ID in our cookie.
 
-This way of logging in is **OpenID Connect**. The browser is sent to Keycloak and comes back with a one-time code. Our server exchanges that code, checks the login result, and only then creates the session. A maintained OpenID Connect library should do the exchange and the checks. The sequence below is the model, not a recipe to implement by hand.
+Our app still needs a result it can check, because it no longer saw the password. This way of getting that result is **OpenID Connect**. A maintained OpenID Connect library should do the exchange and the checks below. The sequence is the model, not steps to build by hand.
 
 ### The browser is sent away
 
-Our login link does not show a password form. It sends the browser to Keycloak. The redirect names our application, a client id.
+A person opens our app and clicks Sign in. Our app does not return a password form. The response tells the browser to go to Keycloak, and the browser follows that redirect.
 
-Keycloak shows its own login page. If this browser already logged in to Keycloak, it skips the form. That is Keycloak's own session cookie, on Keycloak's site, separate from ours.
+Keycloak has to know which application asked. The redirect carries a **client ID**, a name that identifies our app to Keycloak. It also carries the **callback address**, the address in our app where the browser should come back after login. Keycloak sends the browser there only when that address is one it expects for this client.
 
-Keycloak then sends the browser back to our callback address with a one-time **authorization code**. The code is not the password, and it is not yet proof of who the user is. Our server sends the code to Keycloak. Keycloak returns an **ID token**. That token is the login result: who the person is. Keycloak also returns an **access token**. That one is a credential for calling an API, and the next section uses it. The exchange is the moment our server talks to Keycloak during login.
+Keycloak shows its own login page. The password is entered on that page, so this flow never delivers the password to our app. After Keycloak accepts it, Keycloak sends the browser back to the callback address. The return trip includes an **authorization code**: a short-lived value that can be used once. The browser carries the code back to our app. Our backend will exchange it for the login result. The code itself is not the statement of who the person is.
 
-Our server validates the ID token, reads the user, stores a session under a new random ID, and sets our cookie. From here, Part 1 applies again.
+### Exchanging the authorization code
+
+The browser's job ends when it delivers that code to our callback. Our backend then calls Keycloak directly and presents the code. Keycloak answers with two tokens. The browser does not make this call.
+
+The **ID token** is Keycloak's statement about the person who logged in. Our app has to check that statement before trusting it, in the same spirit as the signed cookie in Part 1: the statement must be intact, it must come from our Keycloak, and it must still be valid. A maintained library does that check. Our app then reads who the person is, stores a new session record under a new random session ID, and sends `Set-Cookie` with that ID. The browser is logged in to our app because of that cookie.
+
+Keycloak's answer also includes an **access token**. That token is a credential for an API call. Our pages do not need it, because the session record is what later page requests will use. Receiving it during this exchange does not hand it to a script or a phone app. Those callers obtain an access token through their own login. The API section follows that path.
 
 ```mermaid
 sequenceDiagram
@@ -234,50 +242,72 @@ sequenceDiagram
   participant App
   participant Keycloak
 
-  Browser->>App: Open login
-  App-->>Browser: Redirect to Keycloak
+  Browser->>App: Click Sign in
+  App-->>Browser: Redirect to Keycloak, with client ID and callback address
   Browser->>Keycloak: Follow the redirect
-  Keycloak-->>Browser: Login page, or skip it when a Keycloak session already exists
-  Browser->>Keycloak: Username and password, if the page was shown
-  Keycloak-->>Browser: Redirect back with an authorization code
-  Browser->>App: The code
+  Keycloak-->>Browser: Keycloak's login page
+  Browser->>Keycloak: Username and password
+  Keycloak-->>Browser: Redirect to the callback, with an authorization code
+  Browser->>App: Deliver the code
   App->>Keycloak: Exchange the code
   Keycloak-->>App: ID token and access token
-  App->>App: Validate the ID token, store our session
-  App-->>Browser: Set-Cookie with our session id
+  App->>App: Check the ID token, store our session record
+  App-->>Browser: Set-Cookie with our session ID
 ```
 
-A real login includes additional safeguards. `state` connects the callback to the login our app started. PKCE means the authorization code cannot be exchanged without an additional one-time secret held by the client that started the flow. Our OIDC library handles these mechanisms. In this example, our backend also authenticates itself to Keycloak during the exchange.
+A real login adds two safeguards around this trip. `state` is a value our app creates when it starts the redirect and expects to see again on the callback, so this return trip belongs to the login we started. PKCE is a one-time secret held by the client that started the flow. Keycloak exchanges the authorization code only when that secret is presented with the code, so someone who merely sees the code cannot exchange it. Our library handles both. In this example our backend also authenticates itself to Keycloak during the exchange. PKCE does not authenticate the backend.
 
 ### The page after Keycloak
+
+The person opens another page of our app. The browser attaches our cookie. Our app reads the session ID, finds its own session record, and reads the user id in that row. It does not ask Keycloak. It already checked the ID token at login and wrote the result into the record. This request only has to find that record.
 
 ```mermaid
 sequenceDiagram
   participant Browser
   participant App
 
-  Browser->>App: Open a page (cookie carries our session id)
-  App->>App: Look up our session
+  Browser->>App: Open another page (cookie carries our session ID)
+  App->>App: Find our session record and read the user id
   App-->>Browser: The page
 ```
 
-Keycloak is not called. The page uses our session, which has its own lifetime. The access token expiring does not end that session. CSRF still applies to a write, because the browser may still attach our cookie. The permission check still applies too.
+The record includes the expiry from Part 1. This page request is accepted or refused by looking at that record. The access token is not part of the check. When the access token reaches its own expiry, our session record can still be there, so the person can still open our pages until our record expires or we delete it.
 
-Sign-out deletes our session and clears our cookie. If we also want to end the shared Keycloak login, we send the browser through Keycloak's logout flow. Otherwise, the next login to our app may skip the password form.
+When the person submits a change, the browser is still proving who they are with our cookie. Another site can still cause the browser to send that cookie, which is the CSRF problem from Part 1. Our app still compares the CSRF secret stored in the session with the copy that came from our page.
+
+The record tells us who the user is. It does not decide whether they may delete a record. Our app still makes that permission check before it performs the change.
+
+### Our session and Keycloak's session
+
+The login above created two sessions.
+
+Keycloak stored a session of its own and set a cookie that the browser will send back to Keycloak. Our app stored a different session record and set the cookie that the browser will send back to our app. Each site looks up only the cookie addressed to it.
+
+Keycloak's session is why a later Sign in can skip the password form. The person clicks Sign in, our app redirects the browser, and the browser attaches Keycloak's cookie on that visit. Keycloak finds its session, already knows who this is, and sends the browser back to our callback with a new authorization code. Our app still exchanges that code, still checks the ID token, and still creates its own session record. The skipped piece is the password page.
+
+Sign-out of our app deletes our session record and clears our cookie. The next request to our app finds no session, so we send the person to Sign in. Keycloak's session is a separate record. It remains until Keycloak ends it or it expires. If we also want to end that shared login, we send the browser through Keycloak's logout. If we do not, the next Sign in can skip the password form again. Ending Keycloak's session does not delete the session record another application stored for itself. That application keeps its own record until it ends the record or the record expires.
 
 ### The access token on an API call
 
-An API caller still does not use our session cookie in this example. In Part 1 we minted a random string and stored its hash. With Keycloak, the caller presents the **access token** Keycloak issued. That token is the credential for the API. The ID token from the login is not reused for this.
+In Part 1 an API caller sent a random token, and our database stored the hash of that token. A request was checked by hashing the presented value and finding the hash.
 
-The access token is a **JWT**: three parts, header, claims, and a signature. Our server checks it locally:
+Here our API accepts an **access token** that Keycloak issued. The caller first obtains that token from Keycloak, and later presents it to our API. Those are separate steps. A successful login in the caller's tool is not yet a call to our API.
 
-- the signature, using Keycloak's **public key**
-- the algorithm, which must be one we allow
-- the issuer, which must be our Keycloak
-- the audience, which must be this API
-- the expiry
+A documentation page such as Swagger can be the caller, when it is configured for this login. The person signs in through the same browser redirect. The page keeps the access token from that login and, on later calls, sends `Authorization: Bearer …`. If the browser already holds Keycloak's session cookie, the password form can be skipped, for the reason in the previous section. Another configuration is still the box from Part 1, where someone pastes a token the page will send. The page uses whichever configuration it was given. The ID token is Keycloak's statement to our app about the login. The access token is the credential the API checks.
 
-The private key never leaves Keycloak. The public keys are published at a certificate address (JWKS). Our server fetches them and caches them, so a normal API call does not wait on Keycloak.
+Our API can check the access token without storing a hash of it. The token contains fields, and a signature over those fields. A token in this form is a **JWT**. Part 1 used a signature so our server could detect that a cookie had been altered. The secret that made the signature stayed on our server, and our server calculated it again. An access token splits that work. Keycloak signs the token with a **private key**, and that key stays at Keycloak. Our API checks the signature with the matching **public key**. The public key can confirm a signature Keycloak made. It cannot produce a new signature that would pass the same check. Someone who changes a field inside the token breaks the signature, and our API rejects the token. Anyone who can see the token can still read the fields. Signing detects a change. It does not hide the contents.
+
+The fields inside the token are called **claims**. Our API uses three of them as questions:
+
+- The issuer answers who issued the token. It must be our Keycloak.
+- The audience answers who the token was meant for. It must be this API.
+- The expiry answers whether the token is still in its validity period. Past that time, the API rejects it.
+
+The signature is tied to an algorithm. Our API allows a specific algorithm, so a token signed some other way does not pass just because a signature is present.
+
+To check the signature, our API needs Keycloak's public key. Keycloak publishes its public keys at an address called **JWKS**. Our API fetches those keys and caches them. On a normal API call it uses the cached key, checks the token, and then makes the permission check from Part 1. It does not ask Keycloak whether this user is still signed in.
+
+That is a consequence of checking the token and the cached key. A logout at Keycloak, or an account Keycloak has since disabled, does not change the signature or the claims already in the token. Those checks do not see the change. Until the expiry claim says the token is finished, the API can still accept it.
 
 ```mermaid
 sequenceDiagram
@@ -285,6 +315,8 @@ sequenceDiagram
   participant App
   participant Keycloak
 
+  Program->>Keycloak: Sign in, to obtain an access token
+  Keycloak-->>Program: The access token
   Note over App,Keycloak: Once, or when the key changes
   App->>Keycloak: Fetch the public keys
   Keycloak-->>App: JWKS
@@ -294,13 +326,9 @@ sequenceDiagram
   App-->>Program: The answer
 ```
 
-Local validation does not learn that the user has been signed out or disabled in Keycloak. Without an additional check, the API can continue accepting the token until it expires. Asking Keycloak on every request is possible. It is a round trip each time. This example trusts the checks above instead.
-
-A docs page such as Swagger sends that token only when it is configured to. One configuration runs the same browser login, then stores the access token and sends it as `Authorization`. If the browser already has Keycloak's session cookie, that login form can be skipped. Another configuration is still the paste-a-token box from Part 1. The page does not pick one on its own.
-
 ### A form on our site that forwards the password
 
-It is tempting to keep our own login form and have our server pass the username and password to Keycloak. That is the old password grant, also called a direct access grant. Current OAuth security guidance says this grant must not be used. Our server would receive the password, and the browser would never visit Keycloak, so Keycloak would not set its own session.
+We could keep a password form on our own site and have our server send the username and password on to Keycloak. That grant is the password grant, also called a direct access grant. Current OAuth guidance says it must not be used. Our server would see the password, which is what the redirect avoids, and the browser would never visit Keycloak, so Keycloak would not set its own session cookie.
 
 ### Appendix: when the wiring gets in the way
 
