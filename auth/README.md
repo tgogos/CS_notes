@@ -221,7 +221,7 @@ In Part 1 our app checked the password. When the check succeeded, the app stored
 
 Several applications can share one login service instead of each checking passwords itself. That service can also keep one-time codes, passkeys, and account lockout in one place, so each application does not build them separately.
 
-**Keycloak** takes that password check. It is a separate site, and the person types the password on Keycloak's page. Our app still creates the session record from Part 1 once it has a login result it can trust, and the browser still carries our session ID in our cookie.
+**Keycloak** takes over authentication. In our example, that means checking the password on its own login page. Keycloak is a separate site. Our app still creates the session record from Part 1 once it has a login result it can trust, and the browser still carries our session ID in our cookie.
 
 Our app still needs a result it can check, because it no longer saw the password. This way of getting that result is **OpenID Connect**. A maintained OpenID Connect library should do the exchange and the checks below. The sequence is the model, not steps to build by hand.
 
@@ -260,7 +260,9 @@ sequenceDiagram
   App-->>Browser: Set-Cookie with our session ID
 ```
 
-A real login adds two safeguards around this trip. `state` is a value our app creates when it starts the redirect and expects to see again on the callback, so this return trip belongs to the login we started. Proof Key for Code Exchange (PKCE) starts before that redirect. The client creates a one-time secret and sends a derived challenge with the redirect. Keycloak stores the challenge. At the exchange, the client presents the original secret. Keycloak derives a challenge from that secret and compares it with the original challenge. Someone who only sees the authorization code does not have the secret, so the exchange fails. Our library handles both. In this example our backend also authenticates itself to Keycloak during the exchange. PKCE does not authenticate the backend.
+A real login adds two safeguards around this trip. `state` is a value our app creates when it starts the redirect and expects to see again on the callback, so this return trip belongs to the login we started.
+
+Proof Key for Code Exchange (PKCE) starts before that redirect. The client creates a one-time secret and sends a derived challenge with the redirect. Keycloak stores the challenge. At the exchange, the client presents the original secret. Keycloak derives a challenge from that secret and compares it with the original challenge. Someone who only sees the authorization code does not have the secret, so the exchange fails. Our library handles both. In this example our backend also authenticates itself to Keycloak during the exchange. PKCE does not authenticate the backend.
 
 ### The page after Keycloak
 
@@ -290,13 +292,17 @@ Keycloak stored a session of its own and set a cookie that the browser will send
 
 Keycloak's session is why a later Sign in can skip the password form. The person clicks Sign in, our app redirects the browser, and the browser attaches Keycloak's cookie on that visit. Keycloak finds its session, already knows who this is, and sends the browser back to our callback with a new authorization code. Our app still exchanges that code, still checks the ID token, and still creates its own session record. The skipped piece is the password page.
 
-Sign-out of our app deletes our session record and clears our cookie. The next request to our app finds no session, so we send the person to Sign in. Keycloak's session is a separate record. It remains until Keycloak ends it or it expires. If we also want to end that shared login, we send the browser through Keycloak's logout. If we do not, the next Sign in can skip the password form again. Ending Keycloak's session does not, by itself, erase the session record another application stored. An application can be configured to hear about that logout and end its own session. This example does not include that. Otherwise the other application keeps its record until it ends the record or the record expires.
+Sign-out of our app deletes our session record and clears our cookie. The next request to our app finds no session, so we send the person to Sign in.
+
+Keycloak's session is a separate record. It remains until Keycloak ends it or it expires. If we also want to end that shared login, we send the browser through Keycloak's logout. If we do not, the next Sign in can skip the password form again.
+
+Ending Keycloak's session does not, by itself, erase the session record another application stored. An application can be configured to hear about that logout and end its own session. This example does not include that. Otherwise the other application keeps its record until it ends the record or the record expires.
 
 ### Getting and sending an access token
 
 In Part 1 an API caller sent a random token, and our database stored the hash of that token. A request was checked by hashing the presented value and finding the hash.
 
-Here our API accepts an **access token** that Keycloak issued. The caller first obtains that token from Keycloak, and later presents it to our API. Those are separate steps. A successful login in the caller's tool is not yet a call to our API.
+Here our API accepts an **access token** that Keycloak issued. The caller first obtains that token from Keycloak, and later presents it to our API. Those are separate steps.
 
 A documentation page such as Swagger can be that caller, when Swagger is configured as its own client. Swagger starts its own login. The browser goes to Keycloak, and Keycloak still checks the password. Swagger's code in the browser receives the authorization code and exchanges it, using PKCE. Swagger then holds the access token and sends it to our API as `Authorization: Bearer …`. That token comes from Swagger's login. It is not the token from the earlier login our server-side app performed. Our server-side app and Swagger are separate clients in these examples.
 
