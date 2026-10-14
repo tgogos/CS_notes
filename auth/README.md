@@ -24,7 +24,7 @@ The note has two parts.
 - [An alternative: storing the session in a signed cookie](#an-alternative-storing-the-session-in-a-signed-cookie)
 - [CSRF: the cookie sends itself](#csrf-the-cookie-sends-itself)
 - [A second secret](#a-second-secret)
-- [A caller that is not a browser](#a-caller-that-is-not-a-browser)
+- [Calling the API directly](#calling-the-api-directly)
 - [The API token](#the-api-token)
 - [The two proofs](#the-two-proofs)
 
@@ -49,7 +49,7 @@ The user then opens another page. That click is a new request. The password is n
 
 So the server keeps its own record of the login. That record is called a **session**. It is stored on the server.
 
-The server stores the session ID in that record, as the key. A later request brings the same ID back, and the server uses it to find this row. The password is not stored again. It was already checked.
+The server stores the session ID in that record, as the key. The password is not stored again. It was already checked.
 
 One session record looks like this:
 
@@ -58,18 +58,17 @@ One session record looks like this:
 | Session ID | `k3p9…` | The key. The cookie carries a copy of this, so the server can find the row. |
 | User id | `7` | Which user logged in. |
 | CSRF secret | `m2q8…` | A second value for that same visit. The CSRF section explains it. |
-
-The session ID does not say who the user is. It only names this row. The user id is the fact the next request needs.
+| Expires at | `2026-10-13 14:00 UTC` | When the server must stop accepting this session. |
 
 The session is not a cookie. The cookie carries a copy of the session ID. The server keeps the whole row.
 
 ### A session cookie
 
-The row above stays on the server. The session ID in that row is random. The browser still has to send `k3p9…` back, or the next request cannot find the row. In this example, the browser sends it in a **cookie**.
+The session ID in that row is random. In this example, the browser sends it back in a **cookie**.
 
 A cookie is a small value the server asks the browser to store. After the password check succeeds, the login response includes `Set-Cookie` with the session ID. The browser stores that cookie. On later requests to this same site, the browser attaches it. The user does not copy it.
 
-From then on, each request to this site includes that cookie. The server reads the session ID, finds the row, and reads the user id. That is how it knows who is logged in. If the cookie is missing, or the session ID does not match a row, the server sends the user back to the login page.
+From then on, each request to this site includes that cookie. The server reads the session ID, finds the row, and reads the user id. That is how it knows who is logged in. If the cookie is missing, or the session ID does not match a valid, unexpired session, the server sends the user back to the login page.
 
 The session ID is a **token**. A token is a value the caller sends so the server can check it.
 
@@ -95,6 +94,9 @@ sequenceDiagram
   Server->>DB: Check the password hash
   Server->>DB: Store a session under a random id
   Server-->>Browser: Set-Cookie with that id, then the first page
+  Browser->>Server: Open another page (Cookie carries the session ID)
+  Server->>DB: Find the session, read the user ID
+  Server-->>Browser: The requested page
 ```
 
 ### Sign-out
@@ -116,11 +118,11 @@ That creates the editing problem from earlier. The browser can change `7` to `1`
 
 To stop that edit, the server **signs** the cookie. It calculates a signature from the cookie's contents and a secret that only the server knows, and it stores that signature in the cookie too. On the next request the server calculates the signature again. If the user id was changed, the signature no longer matches, and the server rejects the cookie.
 
-A signature does not hide the user id. Anyone who can see the cookie can still read `user_id=7`. Hiding the value would be encryption, which is a different step. Signing only stops changes.
+A signature does not hide the user id. Anyone who can see the cookie can still read `user_id=7`. Hiding the value would be encryption, which is a different step. Signing lets the server detect changes and reject the modified cookie.
 
 > **Warning.** Anyone who has this cookie can use the server as user 7. The signature does not change that. The cookie must stay secret.
 
-Sign-out is weaker with this design. There is no session record to delete. The server can tell this browser to drop its cookie. A copy that someone already stole still has a valid signature, so it keeps working until the cookie expires.
+Sign-out is weaker with this design. There is no session record to delete. The server can tell this browser to drop its cookie. A stolen copy can keep working until the expiry stored in the signed data, which the server must check. Removing or expiring the browser's cookie does not invalidate that copy.
 
 The rest of this note does not use a signed cookie. It uses a session record on the server.
 
@@ -154,13 +156,13 @@ sequenceDiagram
   Server-->>Browser: The change is accepted
 ```
 
-When the browser does attach the cookie, the other site still cannot read our HTML. Pages from one site cannot read pages from another. So it cannot copy the CSRF token into the forged form. The cookie may arrive, the token does not match, and the write is rejected.
+When the browser does attach the cookie, the browser's same-origin policy normally prevents the malicious site from reading our page, so it cannot obtain the CSRF token. The cookie may arrive, the token does not match, and the write is rejected.
 
 This check belongs on requests that change something: `POST`, `PUT`, `PATCH`, and `DELETE`, when the caller is the session cookie. GET requests should not change application state, so a GET is not the place for this secret. Logout changes something (it ends the session), so logout needs the secret too.
 
-### A caller that is not a browser
+### Calling the API directly
 
-A script, a mobile app, or an API docs page can call the same server. In this example they are not walking through our HTML, so they do not pick up the session cookie from a page.
+Now consider a script, a mobile app, or an API documentation page calling our API. In this example, these callers explicitly send a token instead of using our session cookie.
 
 They have the same original problem. The password was checked once, and the next request must still say who is calling.
 
@@ -168,7 +170,7 @@ They have the same original problem. The password was checked once, and the next
 
 The thing we hand that caller is another unique value, an **API token**. The token is the value. `Authorization: Bearer …` is only the header that carries it, the way a cookie carried the session ID. "Bearer" means possession is enough: whoever presents a valid token can use it. The caller does not send the password again.
 
-The caller sends the username and password once, to a token endpoint. The server checks the password, creates a long random string, and returns that string. The caller stores it and puts it in the header on later requests. Nothing attaches that header automatically. A forged page does not get this CSRF trick for free, because the browser will not add the victim's bearer token on its own. Knowing who is calling is authentication. Deciding what they may do is authorization. That second check applies to a cookie request and a bearer request alike.
+The caller sends the username and password once, to a token endpoint. The server checks the password, creates a long random string, and returns that string. The caller stores it and puts it in the header on later requests. Nothing attaches that header automatically. A forged page does not get this CSRF trick for free, because the browser will not add the victim's bearer token on its own. Knowing who is calling is authentication. Deciding what they may do is authorization. That second check applies to a cookie request and a bearer request alike. Hiding a button is not the permission check.
 
 ```mermaid
 sequenceDiagram
@@ -190,7 +192,7 @@ The database stores a hash of the token, not the token itself. A later request i
 
 Deleting that row ends the token. The next call with the same string fails, because the proof is the row.
 
-A docs page such as Swagger does this only when it is configured to. One common setup is a box where you paste a bearer token. The page then sends that header. Hiding a button is not the permission check.
+A docs page such as Swagger does this only when it is configured to. One common setup is a box where you paste a bearer token. The page then sends that header.
 
 ### The two proofs
 
